@@ -5,6 +5,7 @@ pygame.init()
 pygame.display.set_caption('game base')
 screen = pygame.display.set_mode((900, 900),0,32)
 display = pygame.Surface((300, 300))
+mouse = pygame.mouse
 
 grass_img = pygame.image.load('grass.png').convert()
 grass_img.set_colorkey((0, 0, 0))
@@ -15,10 +16,11 @@ f.close()
 
 while True:
     display.fill((0,0,0))
-
+    (mouse_x, mouse_y) = mouse.get_pos()
     for y, row in enumerate(map_data):
         for x, tile in enumerate(row):
             if tile:
+                
                 #pygame.draw.rect(display, (255, 255, 255), pygame.Rect(x * 10, y * 10, 10, 10), 1)
                 display.blit(grass_img, (150 + x * 10 - y * 10, 100 + x * 5 + y * 5))
                 
