@@ -1,11 +1,13 @@
 import pygame
-
+import random
 
 class Map:
     def __init__(self,file) -> None:
         self.file = file
         
     def draw(self,display):
+        size = display.get_size()
+
         grass_img = pygame.image.load('./images/grass.png').convert()
         grass_img.set_colorkey((0, 0, 0))
 
@@ -18,5 +20,5 @@ class Map:
         for y, row in enumerate(map_data):
             for x, tile in enumerate(row):
                 if tile:
-                    #pygame.draw.rect(display, (255, 255, 255), pygame.Rect(x * 10, y * 10, 10, 10), 1)
-                    display.blit(grass_img, (150 + x * 10 - y * 10, 100 + x * 5 + y * 5))
+                    if random.randint(0,10) == 3:
+                        display.blit(grass_img, (x * 10 - y * 10,  x * 5 + y * 5))
