@@ -1,33 +1,49 @@
 from enum import Enum
-
+from Type import Type
+from Rank import Rank
 class TypeEnnemi(Enum):
-    GOBELIN = {
-        "niveau": 1,
-        "faiblesses": ["feu"],
-        "resistances": ["terre"],
-        "defence": 10,
-        "attaque": 15,
-        "vie": 30,
-        "vitesse": 5,
-        "asset_name": "goblin.png"
+    PHYSICAL_BASE = {
+        "type": Type.PHYSIQUE,
+        "rank": Rank.BASE,
+        "asset_name": "ennemi/Character 1.png"
     }
-    ORC = {
-        "niveau": 3,
-        "faiblesses": ["glace"],
-        "resistances": ["feu"],
-        "defence": 20,
-        "attaque": 25,
-        "vie": 50,
-        "vitesse": 3,
-        "asset_name": "orc.png"
+    PHYSICAL_STRONG = {
+        "type": Type.PHYSIQUE,
+        "rank": Rank.STRONG,
+        "asset_name": "ennemi/Character 1 color 3.png"
     }
-    DRAGON = {
-        "niveau": 5,
-        "faiblesses": ["eau"],
-        "resistances": ["feu", "glace"],
-        "defence": 50,
-        "attaque": 40,
-        "vie": 100,
-        "vitesse": 7,
-        "asset_name": "dragon.png"
+    PHYSICAL_ELITE = {
+        "type": Type.PHYSIQUE,
+        "rank": Rank.ELITE,
+        "asset_name": "ennemi/Character 1 color 2.png"
+    }
+    MANAGE_BASE = {
+        "type": Type.PHYSIQUE,
+        "rank": Rank.BASE,
+        "asset_name": "ennemi/Character 2.png"
+    }
+    MANAGE_STRONG = {
+        "type": Type.PHYSIQUE,
+        "rank": Rank.STRONG,
+        "asset_name": "ennemi/Character 2 color 3.png"
+    }
+    MANAGE_ELITE = {
+        "type": Type.PHYSIQUE,
+        "rank": Rank.ELITE,
+        "asset_name": "ennemi/Character 2 color 2.png"
+    }
+    TECHNO_BASE = {
+        "type": Type.PHYSIQUE,
+        "rank": Rank.BASE,
+        "asset_name": "ennemi/Character 3.png"
+    }
+    TECHNO_STRONG = {
+        "type": Type.PHYSIQUE,
+        "rank": Rank.STRONG,
+        "asset_name": "ennemi/Character 3 color 3.png"
+    }
+    TECHNO_ELITE = {
+        "type": Type.PHYSIQUE,
+        "rank": Rank.ELITE,
+        "asset_name": "ennemi/Character 3 color 2.png"
     }
