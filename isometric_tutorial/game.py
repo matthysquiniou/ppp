@@ -14,5 +14,11 @@ class Game :
     
     def __init__(self) -> None:
         self.state = State.MENU
+        self.lvl = 0
+
+    def draw(display):
+        match
+
+    
 
    
