@@ -37,7 +37,7 @@ class Ennemi(Objet):
             self.updatePosition() 
         screen.blit(animation[self.current_sprite_index], (self.x,self.y))
     
-    def chooseAction(self): # TODO : Gerer le choix d'action correctement 
+    def chooseAction(self): # TODO : Gerer le choix d'action correctement (dead et prendre dmg)
         x2 = 480
         y2 = 270
         distance = math.sqrt((x2 - self.x)**2 + (y2 - self.y)**2)
