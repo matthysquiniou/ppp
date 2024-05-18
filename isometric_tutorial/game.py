@@ -10,6 +10,8 @@ from SkillTree import Tree
 from Player import Player
 from State import State
 from SubState import SubState
+from Wave import Wave
+from WaveParameters import WaveParameters
 
 
 
@@ -31,6 +33,7 @@ class Game :
 
         self.button_pos = [self.MANAGER_BUTTON_POS,self.DEV_BUTTON_POS,self.QUIT_BUTTON_POS,]
         self.state = State.MENU
+        self.wave = Wave(WaveParameters.WAVE_1.value)
         self.lvl = 0
         self.objects = []
         self.sub_state = SubState.WAITING_WAVE
@@ -74,14 +77,9 @@ class Game :
 
                     case SubState.WAVE_SPAWN:
                         self.put_basic_elemnts(display,mouse)
-                        if len(self.objects)==0:
-                            self.objects.append(Ennemi(100,100,Type.TECHNO,Rank.BASE))
-                            # self.objects.append(Ennemi(900,500,Type.TECHNO,Rank.ELITE))
-                            # self.objects.append(Ennemi(100,500,Type.TECHNO,Rank.STRONG))
-                            # self.objects.append(Ennemi(900,100,Type.PHYSIQUE,Rank.ELITE))
                         
+                        self.wave.spawn(self)
                         
-
                         for object in self.objects:
                             if isinstance(object, Ennemi):
                                 nb_attacks = object.nb_attacks
@@ -90,10 +88,22 @@ class Game :
                                     self.player.take_damage(self.state,object.attaque,object.type)
                             else:
                                 object.draw(display)
+                        if self.wave.spawn_ticks > self.wave.max_spawn_ticks:
+                            self.sub_state = SubState.WAVE
+                            self.wave.spawn_ticks = 0
+                        self.wave.spawn_ticks = self.wave.spawn_ticks + 1
 
                         
                     case SubState.WAVE:
                         self.put_basic_elemnts(display,mouse)
+                        for object in self.objects:
+                            if isinstance(object, Ennemi):
+                                nb_attacks = object.nb_attacks
+                                object.draw(display)
+                                if nb_attacks < object.nb_attacks:
+                                    self.player.take_damage(self.state,object.attaque,object.type)
+                            else:
+                                object.draw(display)
                     case SubState.SKILL_TREE:
                         tree = Tree(self.player,self.Wsize)
                         tree.draw(display)

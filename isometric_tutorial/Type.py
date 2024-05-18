@@ -2,7 +2,7 @@ from enum import Enum
 
 class Type(Enum):
     PHYSIQUE = {
-        "faiblesse" : "PHYSIQUE",
+        "faiblesse" : "MANAGE",
         "resistance" : "TECHNO",
         "defence" : 7,
         "attaque" : 4,
