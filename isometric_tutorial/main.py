@@ -6,9 +6,9 @@ from pygame.locals import *
 pygame.init()
 pygame.display.set_caption('PPP')
 
-
+windowSize = (960, 540)
 #config game
-screen = pygame.display.set_mode((1920, 1080))
+screen = pygame.display.set_mode(windowSize)
 mouse = pygame.mouse
 
 chateau_img = pygame.image.load('./images/image.png').convert()
