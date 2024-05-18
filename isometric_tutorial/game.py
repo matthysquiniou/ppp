@@ -1,27 +1,19 @@
-from enum import Enum
-from SkillTree import Tree
-from Player import Player
+import time
 import pygame
 import sys
+
 from Map import Map
 from Ennemi import Ennemi
 from Type import Type
 from Rank import Rank
-import time
-
+from SkillTree import Tree
+from Player import Player
+from State import State
+from SubState import SubState
 
 
 
 menu_texts = ["Become manager","Become dev","Quit"]
-
-class State(Enum):
-    ERROR = 0
-    MENU = 1
-    LVLMANAGER = 2
-    LVLDEV = 3
-    LVL3 = 4
-    FINISHED = 5
-    QUIT = 6
 
 
 class Game : 
@@ -39,6 +31,7 @@ class Game :
         self.state = State.MENU
         self.lvl = 0
         self.objects = []
+        self.sub_state = SubState.WAITING_WAVE
 
         self.onTreeWindow = False
 
@@ -65,29 +58,34 @@ class Game :
 
             case State.LVLMANAGER:
                 
+                match self.sub_state:
+                    case SubState.WAITING_WAVE:
+                        print("")
+                    case SubState.WAVE_SPAWN:
+                        if len(self.objects)==0:
+                            self.objects.append(Ennemi(100,100,Type.TECHNO,Rank.BASE))
+                            self.objects.append(Ennemi(900,500,Type.TECHNO,Rank.ELITE))
+                            self.objects.append(Ennemi(100,500,Type.TECHNO,Rank.STRONG))
+                            self.objects.append(Ennemi(900,100,Type.PHYSIQUE,Rank.ELITE))
+                        map = Map("./config/map.txt")
+                        map.draw(display)
+                        logo = pygame.image.load('./images/image.png').convert()
+                        logo = pygame.transform.scale(logo,(50,50))
+                        display.blit(logo,(0,0))
 
-                if len(self.objects)==0:
-                    self.objects.append(Ennemi(100,100,Type.TECHNO,Rank.BASE))
-                    self.objects.append(Ennemi(900,500,Type.TECHNO,Rank.ELITE))
-                    self.objects.append(Ennemi(100,500,Type.TECHNO,Rank.STRONG))
-                    self.objects.append(Ennemi(900,100,Type.PHYSIQUE,Rank.ELITE))
+                        for object in self.objects:
+                            object.draw(display)
 
-                
-                map = Map("./config/map.txt")
-                map.draw(display)
-
-                if self.onTreeWindow:
-                    Tree()
-                else:
-                    logo = pygame.image.load('./images/image.png').convert()
-                    logo = pygame.transform.scale(logo,(50,50))
-                    display.blit(logo,(0,0))
-
-                    for object in self.objects:
-                        object.draw(display)
-
-                    if 0 <= mouse[0] <= 50 and 0 <= mouse[1] <= 50:
-                        pygame.draw.rect(display,(255,255,255),[0,0,50,50]) 
+                        if 0 <= mouse[0] <= 50 and 0 <= mouse[1] <= 50:
+                            pygame.draw.rect(display,(255,255,255),[0,0,50,50]) 
+                    case SubState.WAVE:
+                        print("")
+                    case SubState.SKILL_TREE:
+                        Tree()
+                    case SubState.WIN:
+                        print("")
+                    case SubState.LOSE:
+                        print("")
 
             case State.LVLDEV:
 
