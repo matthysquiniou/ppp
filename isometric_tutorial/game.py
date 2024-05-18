@@ -33,7 +33,8 @@ class Game :
         self.state = State.MENU
         self.lvl = 0
         self.objects = []
-        self.sub_state = SubState.WAVE_SPAWN
+        self.sub_state = SubState.WAITING_WAVE
+        self.sub_state_save = SubState.WAITING_WAVE
 
         self.map = Map("./config/map.txt",size)
 
@@ -57,15 +58,22 @@ class Game :
                     display.blit(text,(pos[0],pos[1]))
                     if pos[0] <= mouse[0] <= pos[0]+140 and pos[1] <= mouse[1] <= pos[1]+40: 
                         pygame.draw.rect(display,(255,255,255),[pos[0],pos[1],30,40]) 
-               
                 pass
 
             case State.LVLMANAGER:
-                self.put_basic_elemnts(display)
                 match self.sub_state:
                     case SubState.WAITING_WAVE:
-                        print("")
+                        self.put_basic_elemnts(display,mouse)
+
+                        if 0 <= mouse[0] <= 150 and 100 <= mouse[1] <= 150:
+                            pygame.draw.rect(display,(255,255,255),[0,100,150,50]) 
+                        next_wave_image = pygame.image.load('./images/next_wave.png').convert_alpha()
+                        next_wave_image = pygame.transform.scale(next_wave_image,(150,50))
+                        display.blit(next_wave_image,(0,100))
+                        
+
                     case SubState.WAVE_SPAWN:
+                        self.put_basic_elemnts(display,mouse)
                         if len(self.objects)==0:
                             self.objects.append(Ennemi(100,100,Type.TECHNO,Rank.BASE))
                             self.objects.append(Ennemi(900,500,Type.TECHNO,Rank.ELITE))
@@ -77,10 +85,9 @@ class Game :
                         for object in self.objects:
                             object.draw(display)
 
-                        if 0 <= mouse[0] <= 50 and 0 <= mouse[1] <= 50:
-                            pygame.draw.rect(display,(255,255,255),[0,0,50,50]) 
+                        
                     case SubState.WAVE:
-                        print("")
+                        self.put_basic_elemnts(display,mouse)
                     case SubState.SKILL_TREE:
                         tree = Tree(self.player,self.Wsize)
                         tree.draw(display)
@@ -99,9 +106,6 @@ class Game :
 
                 for i in self.objects:
                     i.draw(display)
-
-                if 0 <= mouse[0] <= 50 and 0 <= mouse[1] <= 50:
-                     pygame.draw.rect(display,(255,255,255),[0,0,50,50]) 
 
             case State.QUIT:
                 pygame.quit()
@@ -122,25 +126,35 @@ class Game :
                                 self.state = State.QUIT
             case State.LVLMANAGER:
                 if 0 <= mouse_x <= 50 and 0 <= mouse_y <= 50:
-                    if self.sub_state == SubState.WAVE_SPAWN:
+                    if self.sub_state in [SubState.WAITING_WAVE,SubState.WAVE_SPAWN,SubState.WAVE]:
+                        self.sub_state_save = self.sub_state
                         self.sub_state = SubState.SKILL_TREE
                     elif self.sub_state == SubState.SKILL_TREE:
-                         self.sub_state = SubState.WAVE_SPAWN
+                         self.sub_state = self.sub_state_save
                     pass
+                if 0 <= mouse_x <= 150 and 100 <= mouse_y <= 150:
+                    if self.sub_state == SubState.WAITING_WAVE:
+                        self.sub_state = SubState.WAVE_SPAWN
             case State.LVLDEV:
                 if 0 <= mouse_x <= 50 and 0 <= mouse_y <= 50:
-                    if self.sub_state == SubState.WAVE_SPAWN:
+                    if self.sub_state in [SubState.WAITING_WAVE,SubState.WAVE_SPAWN,SubState.WAVE]:
+                        self.sub_state_save = self.sub_state
                         self.sub_state = SubState.SKILL_TREE
                     elif self.sub_state == SubState.SKILL_TREE:
-                         self.sub_state = SubState.WAVE_SPAWN
+                         self.sub_state = self.sub_state_save
                     pass
 
-    def put_basic_elemnts(self,display):
+    def put_basic_elemnts(self,display,mouse):
         
         self.map.draw(display)
-
-        logo = pygame.image.load('./images/idea.png').convert()
+        if 0 <= mouse[0] <= 50 and 0 <= mouse[1] <= 50:
+            pygame.draw.rect(display,(255,255,255),[0,0,50,50]) 
+        
+        
+        logo = pygame.image.load('./images/idea.png').convert_alpha()
         logo = pygame.transform.scale(logo,(50,50))
         display.blit(logo,(0,0))
+
+        
 
    

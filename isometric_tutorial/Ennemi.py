@@ -20,7 +20,7 @@ class Ennemi(Objet):
         self.frame_since_last_sprite_update = 0
         self.action = None
         self.direction = self.calculer_coefficients_direction(x,y)
-        print(self.direction)
+        
     def draw(self, screen): 
         oldAction = self.action
         self.chooseAction()
@@ -36,27 +36,29 @@ class Ennemi(Objet):
         if self.action in [PersonnageAction.WALK_BACKWARD_LEFT,PersonnageAction.WALK_BACKWARD_RIGHT,PersonnageAction.WALK_FORWARD_LEFT,PersonnageAction.WALK_FORWARD_RIGHT]: 
             self.updatePosition() 
         screen.blit(animation[self.current_sprite_index], (self.x,self.y))
-    
-    def chooseAction(self): # TODO : Gerer le choix d'action correctement (dead et prendre dmg)
+
+    # TODO : Gerer le choix d'action correctement (dead et prendre dmg)
+    def chooseAction(self): 
         x2 = 480
         y2 = 270
         distance = math.sqrt((x2 - self.x)**2 + (y2 - self.y)**2)
-        if self.direction[0]<=0 and self.direction[1]>0 and distance<100:
-            self.action = PersonnageAction.ATTACKING_FORWARD_LEFT
-        elif self.direction[0]<=0 and self.direction[1]<=0 and distance<100:
-            self.action = PersonnageAction.ATTACKING_BACKWARD_LEFT
-        elif self.direction[0]>0 and self.direction[1]>0 and distance<100:
-            self.action = PersonnageAction.ATTACKING_FORWARD_RIGHT
-        elif self.direction[0]>0 and self.direction[1]<=0 and distance<100:
-            self.action = PersonnageAction.ATTACKING_BACKWARD_RIGHT
-        elif self.direction[0]<=0 and self.direction[1]>0:
-            self.action = PersonnageAction.WALK_FORWARD_LEFT
-        elif self.direction[0]<=0 and self.direction[1]<=0:
-            self.action = PersonnageAction.WALK_BACKWARD_LEFT
-        elif self.direction[0]>0 and self.direction[1]>0:
-            self.action = PersonnageAction.WALK_FORWARD_RIGHT
-        elif self.direction[0]>0 and self.direction[1]<=0:
-            self.action = PersonnageAction.WALK_BACKWARD_RIGHT
+
+        actions = {
+            (True,  True,  True):  PersonnageAction.ATTACKING_FORWARD_LEFT,
+            (True,  False, True):  PersonnageAction.ATTACKING_BACKWARD_LEFT,
+            (False, True,  True):  PersonnageAction.ATTACKING_FORWARD_RIGHT,
+            (False, False, True):  PersonnageAction.ATTACKING_BACKWARD_RIGHT,
+            (True,  True,  False): PersonnageAction.WALK_FORWARD_LEFT,
+            (True,  False, False): PersonnageAction.WALK_BACKWARD_LEFT,
+            (False, True,  False): PersonnageAction.WALK_FORWARD_RIGHT,
+            (False, False, False): PersonnageAction.WALK_BACKWARD_RIGHT,
+        }
+
+        direction_x = self.direction[0] <= 0
+        direction_y = self.direction[1] > 0
+        is_near = distance < 100
+
+        self.action = actions[(direction_x, direction_y, is_near)]
     
     def updatePosition(self):
         self.x = self.x + self.direction[0]*self.vitesse*0.1
