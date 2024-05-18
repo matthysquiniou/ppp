@@ -18,7 +18,7 @@ coeff = 0.5
 chateau_img = pygame.transform.scale(chateau_img,(size[0]*coeff,size[1]*coeff))
 
 
-game = Game()  
+game = Game(windowSize)  
 
 while game.state != State.FINISHED:
     
