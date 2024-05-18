@@ -10,7 +10,7 @@ windowSize = (960, 540)
 #config game
 screen = pygame.display.set_mode(windowSize)
 mouse = pygame.mouse
-
+clock = pygame.time.Clock()
 
 
 game = Game(windowSize)  
@@ -29,6 +29,7 @@ while game.state != State.FINISHED:
 
     screen.fill((0,0,0))
     game.draw(screen)
+    clock.tick(60)
 
 
     

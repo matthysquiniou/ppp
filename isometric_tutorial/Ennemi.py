@@ -19,6 +19,8 @@ class Ennemi(Objet):
         self.current_sprite_index = 0
         self.frame_since_last_sprite_update = 0
         self.action = None
+        self.type = type
+        self.nb_attacks = 0
         self.direction = self.calculer_coefficients_direction(x,y)
         
     def draw(self, screen): 
@@ -30,7 +32,10 @@ class Ennemi(Objet):
             self.frame_since_last_sprite_update = 21
         if self.frame_since_last_sprite_update > 20:
             self.frame_since_last_sprite_update = 0
+            index_before = self.current_sprite_index
             self.current_sprite_index = (self.current_sprite_index + 1) % len(animation)
+            if index_before > self.current_sprite_index and self.action in [PersonnageAction.ATTACKING_FORWARD_LEFT,PersonnageAction.ATTACKING_BACKWARD_LEFT,PersonnageAction.ATTACKING_FORWARD_RIGHT,PersonnageAction.ATTACKING_BACKWARD_RIGHT]:
+                self.nb_attacks = self.nb_attacks + 1
         else:    
             self.frame_since_last_sprite_update = self.frame_since_last_sprite_update + 1
         if self.action in [PersonnageAction.WALK_BACKWARD_LEFT,PersonnageAction.WALK_BACKWARD_RIGHT,PersonnageAction.WALK_FORWARD_LEFT,PersonnageAction.WALK_FORWARD_RIGHT]: 

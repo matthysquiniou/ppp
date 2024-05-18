@@ -1,4 +1,5 @@
 from Type import Type
+from State import State
 
 class Player:
 
@@ -6,8 +7,8 @@ class Player:
         self.social_points = 0
         self.physical_points = 0
         self.technologic_points = 0
-
-        self.healthPoint = 100
+        self.health_point = 1000
+        self.max_health = 1000
     
     def add_point(self,type:Type,number:int):
         if type == Type.PHYSIQUE:
@@ -16,3 +17,13 @@ class Player:
             self.technologic_points += number
         elif type == Type.MANAGE:
             self.social_points += number
+
+    def take_damage(self,state: State, damage: int, enemi_type: Type):
+        match state: #TODO: gérer les autres level
+            case state.LVLMANAGER :
+                if enemi_type == Type.TECHNO:
+                    self.health_point = self.health_point - (damage*2)
+                elif enemi_type == Type.PHYSIQUE:
+                    self.health_point = self.health_point - (damage*0.5)
+                else: 
+                    self.health_point = self.health_point - damage

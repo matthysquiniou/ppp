@@ -76,14 +76,20 @@ class Game :
                         self.put_basic_elemnts(display,mouse)
                         if len(self.objects)==0:
                             self.objects.append(Ennemi(100,100,Type.TECHNO,Rank.BASE))
-                            self.objects.append(Ennemi(900,500,Type.TECHNO,Rank.ELITE))
-                            self.objects.append(Ennemi(100,500,Type.TECHNO,Rank.STRONG))
-                            self.objects.append(Ennemi(900,100,Type.PHYSIQUE,Rank.ELITE))
+                            # self.objects.append(Ennemi(900,500,Type.TECHNO,Rank.ELITE))
+                            # self.objects.append(Ennemi(100,500,Type.TECHNO,Rank.STRONG))
+                            # self.objects.append(Ennemi(900,100,Type.PHYSIQUE,Rank.ELITE))
                         
                         
 
                         for object in self.objects:
-                            object.draw(display)
+                            if isinstance(object, Ennemi):
+                                nb_attacks = object.nb_attacks
+                                object.draw(display)
+                                if nb_attacks < object.nb_attacks:
+                                    self.player.take_damage(self.state,object.attaque,object.type)
+                            else:
+                                object.draw(display)
 
                         
                     case SubState.WAVE:
@@ -154,8 +160,8 @@ class Game :
         logo = pygame.image.load('./images/idea.png').convert_alpha()
         logo = pygame.transform.scale(logo,(50,50))
         display.blit(logo,(0,0))
-
-        pygame.draw.rect(display,(255,41,41),[(display.get_width()/2)-63,18,152,21])  #152px full health
+        health_bar_px = self.player.health_point*(152/self.player.max_health)
+        pygame.draw.rect(display,(255,41,41),[(display.get_width()/2)-63,18,health_bar_px,21])  #152px full health
         health_bar = pygame.image.load('./images/health_bar.png').convert_alpha()
         health_bar = pygame.transform.scale(health_bar,(200,50))
         display.blit(health_bar,((display.get_width()/2)-100,0))
