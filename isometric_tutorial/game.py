@@ -97,7 +97,7 @@ class Game :
                         print("")
 
             case State.LVLDEV:
-                self.put_basic_elemnts(display)
+                self.put_basic_elemnts(display,mouse)
 
 
                 if len(self.objects)==0:
@@ -144,7 +144,7 @@ class Game :
                          self.sub_state = self.sub_state_save
                     pass
 
-    def put_basic_elemnts(self,display,mouse):
+    def put_basic_elemnts(self,display : pygame.display,mouse):
         
         self.map.draw(display)
         if 0 <= mouse[0] <= 50 and 0 <= mouse[1] <= 50:
@@ -154,6 +154,11 @@ class Game :
         logo = pygame.image.load('./images/idea.png').convert_alpha()
         logo = pygame.transform.scale(logo,(50,50))
         display.blit(logo,(0,0))
+
+        pygame.draw.rect(display,(255,41,41),[(display.get_width()/2)-63,18,152,21])  #152px full health
+        health_bar = pygame.image.load('./images/health_bar.png').convert_alpha()
+        health_bar = pygame.transform.scale(health_bar,(200,50))
+        display.blit(health_bar,((display.get_width()/2)-100,0))
 
         
 
