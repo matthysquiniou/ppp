@@ -59,7 +59,7 @@ class Game :
                 pass
 
             case State.LVLMANAGER:
-                
+                self.sub_state = SubState.WAVE_SPAWN
                 match self.sub_state:
                     case SubState.WAITING_WAVE:
                         print("")
