@@ -1,4 +1,6 @@
 from enum import Enum
+from SkillTree import Tree
+from Player import Player
 import pygame
 import sys
 from Map import Map
@@ -31,10 +33,14 @@ class Game :
         self.LOGO_POS = (size[0]//2-size[0]//5,100)
         self.LOGO_SIZE = (size[0]//2,size[1]//4)
 
+        self.player = Player()
+
         self.button_pos = [self.MANAGER_BUTTON_POS,self.DEV_BUTTON_POS,self.QUIT_BUTTON_POS,]
         self.state = State.MENU
         self.lvl = 0
         self.objects = []
+
+        self.onTreeWindow = False
 
     def draw(self,display):
         size = display.get_size()
@@ -58,19 +64,30 @@ class Game :
                 pass
 
             case State.LVLMANAGER:
+                
+
                 if len(self.objects)==0:
                     self.objects.append(Ennemi(100,100,Type.TECHNO,Rank.BASE))
                     self.objects.append(Ennemi(900,500,Type.TECHNO,Rank.ELITE))
                     self.objects.append(Ennemi(100,500,Type.TECHNO,Rank.STRONG))
                     self.objects.append(Ennemi(900,100,Type.PHYSIQUE,Rank.ELITE))
+
+                
                 map = Map("./config/map.txt")
                 map.draw(display)
 
-                for object in self.objects:
-                    object.draw(display)
+                if self.onTreeWindow:
+                    Tree()
+                else:
+                    logo = pygame.image.load('./images/image.png').convert()
+                    logo = pygame.transform.scale(logo,(50,50))
+                    display.blit(logo,(0,0))
 
-                if 0 <= mouse[0] <= 50 and 0 <= mouse[1] <= 50:
-                     pygame.draw.rect(display,(255,255,255),[0,0,50,50]) 
+                    for object in self.objects:
+                        object.draw(display)
+
+                    if 0 <= mouse[0] <= 50 and 0 <= mouse[1] <= 50:
+                        pygame.draw.rect(display,(255,255,255),[0,0,50,50]) 
 
             case State.LVLDEV:
 
@@ -106,7 +123,7 @@ class Game :
                                 self.state = State.QUIT
             case State.LVLMANAGER:
                 if 0 <= mouse_x <= 50 and 0 <= mouse_y <= 50:
-                    
+                    self.onTreeWindow = True
                     pass
 
    
