@@ -3,6 +3,7 @@ from Type import Type
 from Rank import Rank
 from Action import Action
 from PersonnageAction import PersonnageAction
+import math
 
 class Ennemi(Objet):
 
@@ -37,16 +38,25 @@ class Ennemi(Objet):
         screen.blit(animation[self.current_sprite_index], (self.x,self.y))
     
     def chooseAction(self): # TODO : Gerer le choix d'action correctement 
-        if self.direction[0]<=0 and self.direction[1]>0:
+        x2 = 480
+        y2 = 270
+        distance = math.sqrt((x2 - self.x)**2 + (y2 - self.y)**2)
+        if self.direction[0]<=0 and self.direction[1]>0 and distance<100:
+            self.action = PersonnageAction.ATTACKING_FORWARD_LEFT
+        elif self.direction[0]<=0 and self.direction[1]<=0 and distance<100:
+            self.action = PersonnageAction.ATTACKING_BACKWARD_LEFT
+        elif self.direction[0]>0 and self.direction[1]>0 and distance<100:
+            self.action = PersonnageAction.ATTACKING_FORWARD_RIGHT
+        elif self.direction[0]>0 and self.direction[1]<=0 and distance<100:
+            self.action = PersonnageAction.ATTACKING_BACKWARD_RIGHT
+        elif self.direction[0]<=0 and self.direction[1]>0:
             self.action = PersonnageAction.WALK_FORWARD_LEFT
         elif self.direction[0]<=0 and self.direction[1]<=0:
             self.action = PersonnageAction.WALK_BACKWARD_LEFT
-        elif self.direction[0]>0.0 and self.direction[1]>0.0:
+        elif self.direction[0]>0 and self.direction[1]>0:
             self.action = PersonnageAction.WALK_FORWARD_RIGHT
-        elif self.direction[0]>0.0 and self.direction[1]<=0.0:
+        elif self.direction[0]>0 and self.direction[1]<=0:
             self.action = PersonnageAction.WALK_BACKWARD_RIGHT
-        else:
-            self.action = PersonnageAction.ATTACKING_BACKWARD_LEFT
     
     def updatePosition(self):
         self.x = self.x + self.direction[0]*self.vitesse*0.1
