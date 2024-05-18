@@ -35,8 +35,6 @@ class Game :
         self.objects = []
         self.sub_state = SubState.WAITING_WAVE
 
-        self.onTreeWindow = False
-
     def draw(self,display):
         size = display.get_size()
 
@@ -124,7 +122,7 @@ class Game :
                                 self.state = State.QUIT
             case State.LVLMANAGER:
                 if 0 <= mouse_x <= 50 and 0 <= mouse_y <= 50:
-                    self.onTreeWindow = True
+                    self.sub_state = SubState.SKILL_TREE
                     pass
 
    
