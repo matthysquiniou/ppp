@@ -12,7 +12,7 @@ class Map:
         grass_img = pygame.image.load('./images/grass.png').convert()
         grass_img.set_colorkey((0, 0, 0))
 
-        sand_img = pygame.image.load('./images/sand.png').convert()
+        sand_img = pygame.image.load('./images/walk.png').convert()
         sand_img.set_colorkey((0, 0, 0))
 
         f = open(self.file)
