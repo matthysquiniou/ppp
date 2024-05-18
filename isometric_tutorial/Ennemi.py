@@ -6,13 +6,13 @@ from PersonnageAction import PersonnageAction
 
 class Ennemi(Objet):
     def __init__(self, x:int, y:int, type: Type, rank: Rank):
-        super().__init__(x, y, "ennemi/"+type.asset+" "+rank.color+".png", 9, 5, Action.PERSONNAGE)
-        self.faiblesse = type.faiblesse
-        self.resistance = type.resistance
-        self.defence = type.defence * rank.stat_mult
-        self.attaque = type.attaque * rank.stat_mult
-        self.vie = type.vie * rank.stat_mult
-        self.vitesse = type.vitesse * rank.stat_mult
+        super().__init__(x, y, "ennemi/"+type.value["asset"]+rank.value["color"]+".png", 9, 5, Action.PERSONNAGE.value)
+        self.faiblesse = type.value["faiblesse"]
+        self.resistance = type.value["resistance"]
+        self.defence = type.value["defence"] * rank.value["stat_mult"]
+        self.attaque = type.value["attaque"]  * rank.value["stat_mult"]
+        self.vie = type.value["vie"]  * rank.value["stat_mult"]
+        self.vitesse = type.value["vitesse"]  * rank.value["stat_mult"]
         self.current_sprite_index = 0
         self.frame_since_last_sprite_update = 0
         self.action = None

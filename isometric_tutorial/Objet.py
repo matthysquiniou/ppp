@@ -4,7 +4,7 @@ from generate_animation import generate_animation
 from Action import Action
 
 class Objet(ABC):
-    ASSET_PATH = "../images/"
+    ASSET_PATH = "./images/"
     def __init__(self, x:int, y:int, asset_name, rows: int = None, cols: int = None, actions: Action = None):
         self.x = x
         self.y = y

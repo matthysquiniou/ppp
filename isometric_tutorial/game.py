@@ -2,6 +2,10 @@ from enum import Enum
 import pygame
 import sys
 from Map import Map
+from Ennemi import Ennemi
+from Type import Type
+from Rank import Rank
+import time
 
 MANAGER_BUTTON_POS = (850,400)
 DEV_BUTTON_POS = (850,450)
@@ -25,6 +29,7 @@ class Game :
     def __init__(self) -> None:
         self.state = State.MENU
         self.lvl = 0
+        self.objects = []
 
     def draw(self,display):
         size = display.get_size()
@@ -44,9 +49,13 @@ class Game :
                 pass
 
             case State.LVLMANAGER:
-                
+                if len(self.objects)==0:
+                    self.objects.append(Ennemi(150,150,Type.TECHNO,Rank.BASE))
                 map = Map("./config/map.txt")
                 map.draw(display)
+
+                for i in self.objects:
+                    i.draw(display)
 
             case State.LVLDEV:
                 map = Map("./config/map.txt")

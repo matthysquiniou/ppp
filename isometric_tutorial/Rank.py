@@ -7,10 +7,10 @@ class Rank(Enum):
     }
     STRONG = {
         "stat_mult" : 1.5,
-        "color" : "2"
+        "color" : " 2"
 
     }
     ELITE = {
         "stat_mult" : 2,
-        "color" : "3"
+        "color" : " 3"
     }

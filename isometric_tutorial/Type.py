@@ -1,9 +1,9 @@
 from enum import Enum
-from Type import Type
+
 class Type(Enum):
     PHYSIQUE = {
-        "faiblesse" : Type.PHYSIQUE,
-        "resistance" : Type.TECHNO,
+        "faiblesse" : "PHYSIQUE",
+        "resistance" : "TECHNO",
         "defence" : 7,
         "attaque" : 4,
         "vie" : 130,
@@ -11,8 +11,8 @@ class Type(Enum):
         "asset" : "Character 1"
     }
     MANAGE = {
-        "faiblesse" : Type.TECHNO,
-        "resistance" : Type.PHYSIQUE,
+        "faiblesse" : "TECHNO",
+        "resistance" : "PHYSIQUE",
         "defence" : 5,
         "attaque" : 5,
         "vie" : 100,
@@ -20,8 +20,8 @@ class Type(Enum):
         "asset" : "Character 2"
     }
     TECHNO = {
-        "faiblesse" : Type.PHYSIQUE,
-        "resistance" : Type.MANAGE,
+        "faiblesse" : "PHYSIQUE",
+        "resistance" : "MANAGE",
         "defence" : 4,
         "attaque" : 8,
         "vie" : 80,
