@@ -15,8 +15,8 @@ class Type(Enum):
         "resistance" : "PHYSIQUE",
         "defence" : 5,
         "attaque" : 5,
-        "vie" : 100,
-        "vitesse" : 5,
+        "vie" : 110,
+        "vitesse" : 4,
         "asset" : "Character 2"
     }
     TECHNO = {
@@ -24,7 +24,7 @@ class Type(Enum):
         "resistance" : "MANAGE",
         "defence" : 4,
         "attaque" : 8,
-        "vie" : 80,
-        "vitesse" : 6,
+        "vie" : 90,
+        "vitesse" : 4,
         "asset" : "Character 3"
     }

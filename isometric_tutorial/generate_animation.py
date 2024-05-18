@@ -17,7 +17,7 @@ def generate_animation(image_path, rows, cols, actions):
 
 
     for i in range(len(sprites)):
-        sprites[i] = pygame.transform.flip(sprites[i], True, False)
+        sprites.append(pygame.transform.flip(sprites[i], True, False))
 
     animations = {}
     current_index = 0
@@ -28,8 +28,9 @@ def generate_animation(image_path, rows, cols, actions):
         for _ in range(num_sprites):
             animation.append(sprites[current_index])
             current_index += 1
-
+        for _ in range(cols-num_sprites):
+            current_index += 1
+        
         animations[action] = animation
-        current_index=0
 
     return animations

@@ -19,30 +19,38 @@ class Ennemi(Objet):
         self.frame_since_last_sprite_update = 0
         self.action = None
         self.direction = self.calculer_coefficients_direction(x,y)
-
+        print(self.direction)
     def draw(self, screen): 
         oldAction = self.action
-        self.action = self.chooseAction()
+        self.chooseAction()
         animation = self.animations[self.action]
         if oldAction != self.action:
             self.current_sprite_index = 0
-            self.frame_since_last_sprite_update = 6
-        if self.frame_since_last_sprite_update > 5:
+            self.frame_since_last_sprite_update = 21
+        if self.frame_since_last_sprite_update > 20:
             self.frame_since_last_sprite_update = 0
             self.current_sprite_index = (self.current_sprite_index + 1) % len(animation)
         else:    
             self.frame_since_last_sprite_update = self.frame_since_last_sprite_update + 1
-        if self.action in [PersonnageAction.WALK_BACKWARD_LEFT,PersonnageAction.WALK_BACKWARD_RIGHT,PersonnageAction.ATTACKING_FORWARD_LEFT,PersonnageAction.WALK_FORWARD_RIGHT]: 
+        if self.action in [PersonnageAction.WALK_BACKWARD_LEFT,PersonnageAction.WALK_BACKWARD_RIGHT,PersonnageAction.WALK_FORWARD_LEFT,PersonnageAction.WALK_FORWARD_RIGHT]: 
             self.updatePosition() 
         screen.blit(animation[self.current_sprite_index], (self.x,self.y))
     
     def chooseAction(self): # TODO : Gerer le choix d'action correctement 
-        return PersonnageAction.WALK_FORWARD_RIGHT
+        if self.direction[0]<=0 and self.direction[1]>0:
+            self.action = PersonnageAction.WALK_FORWARD_LEFT
+        elif self.direction[0]<=0 and self.direction[1]<=0:
+            self.action = PersonnageAction.WALK_BACKWARD_LEFT
+        elif self.direction[0]>0.0 and self.direction[1]>0.0:
+            self.action = PersonnageAction.WALK_FORWARD_RIGHT
+        elif self.direction[0]>0.0 and self.direction[1]<=0.0:
+            self.action = PersonnageAction.WALK_BACKWARD_RIGHT
+        else:
+            self.action = PersonnageAction.ATTACKING_BACKWARD_LEFT
     
     def updatePosition(self):
         self.x = self.x + self.direction[0]*self.vitesse*0.1
         self.y = self.y + self.direction[1]*self.vitesse*0.1
-        return
     
     def calculer_coefficients_direction(self, x1, y1):
         x2 = 480
