@@ -29,8 +29,8 @@ class Ennemi(Objet):
         animation = self.animations[self.action]
         if oldAction != self.action:
             self.current_sprite_index = 0
-            self.frame_since_last_sprite_update = 21
-        if self.frame_since_last_sprite_update > 20:
+            self.frame_since_last_sprite_update = 11
+        if self.frame_since_last_sprite_update > 10:
             self.frame_since_last_sprite_update = 0
             index_before = self.current_sprite_index
             self.current_sprite_index = (self.current_sprite_index + 1) % len(animation)
@@ -66,8 +66,8 @@ class Ennemi(Objet):
         self.action = actions[(direction_x, direction_y, is_near)]
     
     def updatePosition(self):
-        self.x = self.x + self.direction[0]*self.vitesse*0.1
-        self.y = self.y + self.direction[1]*self.vitesse*0.1
+        self.x = self.x + self.direction[0]*self.vitesse*0.15
+        self.y = self.y + self.direction[1]*self.vitesse*0.15
     
     def calculer_coefficients_direction(self, x1, y1):
         x2 = 480
