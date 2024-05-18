@@ -25,6 +25,8 @@ class Game :
         self.LOGO_POS = (size[0]//2-size[0]//5,100)
         self.LOGO_SIZE = (size[0]//2,size[1]//4)
 
+        self.Wsize = size
+
         self.player = Player()
 
         self.button_pos = [self.MANAGER_BUTTON_POS,self.DEV_BUTTON_POS,self.QUIT_BUTTON_POS,]
@@ -81,7 +83,8 @@ class Game :
                     case SubState.WAVE:
                         print("")
                     case SubState.SKILL_TREE:
-                        Tree()
+                        tree = Tree(self.player,self.Wsize)
+                        tree.draw(display)
                     case SubState.WIN:
                         print("")
                     case SubState.LOSE:
