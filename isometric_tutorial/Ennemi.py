@@ -2,7 +2,7 @@ from Objet import Objet
 from Type import Type
 from Rank import Rank
 from Action import Action
-import pygame
+from PersonnageAction import PersonnageAction
 
 class Ennemi(Objet):
     def __init__(self, x:int, y:int, type: Type, rank: Rank):
@@ -20,10 +20,10 @@ class Ennemi(Objet):
     def draw(self, screen): 
         oldAction = self.action
         self.action = self.chooseAction()
+        animation = self.animations[self.action]
         if oldAction != self.action:
             self.current_sprite_index = 0
             self.frame_since_last_sprite_update = 6
-        animation = self.animations[self.action]
         if self.frame_since_last_sprite_update > 5:
             self.frame_since_last_sprite_update = 0
             self.current_sprite_index = (self.current_sprite_index + 1) % len(animation)
@@ -33,8 +33,10 @@ class Ennemi(Objet):
         self.updatePosition() 
         screen.blit(animation[self.current_sprite_index], (self.x,self.y))
     
-    def chooseAction(self):
-        return ""
+    def chooseAction(self): # TODO : Gerer le choix d'action correctement 
+        return PersonnageAction.WALK_FORWARD_RIGHT
     
-    def updatePosition(self):
+    def updatePosition(self): # TODO : Gerer le déplacement correctement 
+        self.x = self.x + 1
+        self.x = self.y + 1
         return
