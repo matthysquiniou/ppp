@@ -3,12 +3,18 @@ import random
 import math
 
 class Map:
-    def __init__(self,file) -> None:
+    def __init__(self,file,size) -> None:
         self.file = file
+
+        self.dis = pygame.Surface(size)
+        self.initMap(size)
+
+        
         
     def draw(self,display):
-        size = display.get_size()
+        display.blit(pygame.transform.scale(self.dis, display.get_size()),(0,0))
 
+    def initMap(self,size):
         grass_img = pygame.image.load('./images/grass.png').convert()
         grass_img.set_colorkey((0, 0, 0))
 
@@ -31,17 +37,23 @@ class Map:
                    
                     coeff_y = (y-len(map_data)//2)
                     
-                    display.blit(grass_img, ((size[0]//2) + coeff_x  * 10-coeff_y*10,(size[1]//2)+ coeff_y*5+coeff_x*5))
+                    self.dis.blit(grass_img, ((size[0]//2) + coeff_x  * 10-coeff_y*10,(size[1]//2)+ coeff_y*5+coeff_x*5))
 
                 elif tile == 2:
                     coeff_x = (x-len(row)//2)
                    
                     coeff_y = (y-len(map_data)//2)
                     
-                    display.blit(sand_img, ((size[0]//2) + coeff_x  * 10-coeff_y*10,(size[1]//2)+ coeff_y*5+coeff_x*5))
+                    self.dis.blit(sand_img, ((size[0]//2) + coeff_x  * 10-coeff_y*10,(size[1]//2)+ coeff_y*5+coeff_x*5))
                 elif tile == 3:
                     coeff_x = (x-len(row)//2)
                    
                     coeff_y = (y-len(map_data)//2)
                     
-                    display.blit(walk_img, ((size[0]//2) + coeff_x  * 10-coeff_y*10,(size[1]//2)+ coeff_y*5+coeff_x*5))
+                    self.dis.blit(walk_img, ((size[0]//2) + coeff_x  * 10-coeff_y*10,(size[1]//2)+ coeff_y*5+coeff_x*5))
+        castle_img = pygame.image.load('./images/castle.png').convert()
+        castle_img.set_colorkey((0, 0, 0))
+        castle_img = pygame.transform.scale(castle_img,(200,200))
+        self.dis.blit(castle_img,(size[0]//2-95,size[1]//2-95))
+
+        print(self.dis)

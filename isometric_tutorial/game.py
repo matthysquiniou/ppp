@@ -33,7 +33,11 @@ class Game :
         self.state = State.MENU
         self.lvl = 0
         self.objects = []
-        self.sub_state = SubState.WAITING_WAVE
+        self.sub_state = SubState.WAVE_SPAWN
+
+        self.map = Map("./config/map.txt",size)
+
+        
 
     def draw(self,display):
         size = display.get_size()
@@ -57,7 +61,7 @@ class Game :
                 pass
 
             case State.LVLMANAGER:
-                self.sub_state = SubState.WAVE_SPAWN
+                self.put_basic_elemnts(display)
                 match self.sub_state:
                     case SubState.WAITING_WAVE:
                         print("")
@@ -67,11 +71,8 @@ class Game :
                             self.objects.append(Ennemi(900,500,Type.TECHNO,Rank.ELITE))
                             self.objects.append(Ennemi(100,500,Type.TECHNO,Rank.STRONG))
                             self.objects.append(Ennemi(900,100,Type.PHYSIQUE,Rank.ELITE))
-                        map = Map("./config/map.txt")
-                        map.draw(display)
-                        logo = pygame.image.load('./images/image.png').convert()
-                        logo = pygame.transform.scale(logo,(50,50))
-                        display.blit(logo,(0,0))
+                        
+                        
 
                         for object in self.objects:
                             object.draw(display)
@@ -89,13 +90,12 @@ class Game :
                         print("")
 
             case State.LVLDEV:
-
+                self.put_basic_elemnts(display)
 
 
                 if len(self.objects)==0:
                     self.objects.append(Ennemi(150,150,Type.TECHNO,Rank.BASE))
-                map = Map("./config/map.txt")
-                map.draw(display)
+                
 
                 for i in self.objects:
                     i.draw(display)
@@ -122,7 +122,25 @@ class Game :
                                 self.state = State.QUIT
             case State.LVLMANAGER:
                 if 0 <= mouse_x <= 50 and 0 <= mouse_y <= 50:
-                    self.sub_state = SubState.SKILL_TREE
+                    if self.sub_state == SubState.WAVE_SPAWN:
+                        self.sub_state = SubState.SKILL_TREE
+                    elif self.sub_state == SubState.SKILL_TREE:
+                         self.sub_state = SubState.WAVE_SPAWN
                     pass
+            case State.LVLDEV:
+                if 0 <= mouse_x <= 50 and 0 <= mouse_y <= 50:
+                    if self.sub_state == SubState.WAVE_SPAWN:
+                        self.sub_state = SubState.SKILL_TREE
+                    elif self.sub_state == SubState.SKILL_TREE:
+                         self.sub_state = SubState.WAVE_SPAWN
+                    pass
+
+    def put_basic_elemnts(self,display):
+        
+        self.map.draw(display)
+
+        logo = pygame.image.load('./images/idea.png').convert()
+        logo = pygame.transform.scale(logo,(50,50))
+        display.blit(logo,(0,0))
 
    

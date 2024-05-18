@@ -10,7 +10,8 @@ class Tree:
 
 
 
-        self.button_pos = [(size[0]//4,size[1]//5*2),
+        self.button_pos = [(0,0),
+                           (size[0]//4,size[1]//5*2),
                            (size[0]//4,size[1]//5*3),
                            (size[0]//4,size[1]//5*4),
                            (size[0]//2,size[1]//5*2),
@@ -19,7 +20,7 @@ class Tree:
                            (size[0]//4*3,size[1]//5*2),
                            (size[0]//4*3,size[1]//5*3),
                            (size[0]//4*3,size[1]//5*4),]
-        self.button_texts = ["-","-","-","Social : "+str(self.social),"Tech : "+str(self.techno),"Physic : "+str(self.physic),"+","+","+"]
+        self.button_texts = ["back","-","-","-","Social : "+str(self.social),"Tech : "+str(self.techno),"Physic : "+str(self.physic),"+","+","+"]
 
     def draw(self,display):
         if self.ask:

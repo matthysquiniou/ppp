@@ -11,11 +11,6 @@ windowSize = (960, 540)
 screen = pygame.display.set_mode(windowSize)
 mouse = pygame.mouse
 
-chateau_img = pygame.image.load('./images/image.png').convert()
-chateau_img.set_colorkey((255, 255, 255))
-size = chateau_img.get_size()
-coeff = 0.5
-chateau_img = pygame.transform.scale(chateau_img,(size[0]*coeff,size[1]*coeff))
 
 
 game = Game(windowSize)  
