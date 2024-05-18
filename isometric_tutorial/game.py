@@ -33,6 +33,8 @@ class Game :
         self.LOGO_POS = (size[0]//2-size[0]//5,100)
         self.LOGO_SIZE = (size[0]//2,size[1]//4)
 
+        self.Wsize = size
+
         self.player = Player()
 
         self.button_pos = [self.MANAGER_BUTTON_POS,self.DEV_BUTTON_POS,self.QUIT_BUTTON_POS,]
@@ -73,12 +75,15 @@ class Game :
                     self.objects.append(Ennemi(900,100,Type.PHYSIQUE,Rank.ELITE))
 
                 
-                map = Map("./config/map.txt")
-                map.draw(display)
+                
 
                 if self.onTreeWindow:
-                    Tree()
+                    tree = Tree(self.player,self.Wsize)
+                    tree.draw(display)
                 else:
+                    map = Map("./config/map.txt")
+                    map.draw(display)
+
                     logo = pygame.image.load('./images/image.png').convert()
                     logo = pygame.transform.scale(logo,(50,50))
                     display.blit(logo,(0,0))
