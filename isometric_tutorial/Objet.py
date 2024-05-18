@@ -8,10 +8,12 @@ class Objet(ABC):
     def __init__(self, x:int, y:int, asset_name, rows: int = None, cols: int = None, actions: Action = None):
         self.x = x
         self.y = y
+        self.asset = self.ASSET_PATH+asset_name
         if rows and cols:
             self.animations = generate_animation(self.ASSET_PATH+asset_name, rows, cols, actions)
         else:
             self.animations = None
-    def draw(self, screen): #TODO : gérer les animations / actions si il y en a (faire une "ia" pour les actions des ennemis)
+            
+    def draw(self, screen): 
         img_objet = pygame.image.load(self.asset).convert_alpha()
         screen.blit(img_objet, (self.x,self.y))
