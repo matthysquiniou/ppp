@@ -59,12 +59,15 @@ class Game :
 
             case State.LVLMANAGER:
                 if len(self.objects)==0:
-                    self.objects.append(Ennemi(150,150,Type.TECHNO,Rank.BASE))
+                    self.objects.append(Ennemi(100,100,Type.TECHNO,Rank.BASE))
+                    self.objects.append(Ennemi(900,500,Type.TECHNO,Rank.ELITE))
+                    self.objects.append(Ennemi(100,500,Type.TECHNO,Rank.STRONG))
+                    self.objects.append(Ennemi(900,100,Type.PHYSIQUE,Rank.ELITE))
                 map = Map("./config/map.txt")
                 map.draw(display)
 
-                for i in self.objects:
-                    i.draw(display)
+                for object in self.objects:
+                    object.draw(display)
 
                 if 0 <= mouse[0] <= 50 and 0 <= mouse[1] <= 50:
                      pygame.draw.rect(display,(255,255,255),[0,0,50,50]) 
