@@ -9,9 +9,9 @@ import math
 class Player:
 
     def __init__(self,Wsize):
-        self.social_points = 15
-        self.physical_points = 15
-        self.technologic_points = 15
+        self.social_points = 150
+        self.physical_points = 150
+        self.technologic_points = 150
         self.health_point = 1000
         self.max_health = 1000
         self.remain_points = 15
