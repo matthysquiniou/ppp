@@ -226,7 +226,7 @@ class Game :
             text = wavefont.render('Ennemis prochaine wave :'+str(self.wave.ennemi_number), True , (0,0,0)) 
             display.blit(text,(15,115))
         else:
-            text = wavefont.render('Ennemies restant :'+str(self.wave.remaining_ennemi), True , (0,0,0)) 
+            text = wavefont.render('Ennemis restant :'+str(self.wave.remaining_ennemi), True , (0,0,0)) 
             display.blit(text,(15,115))
 
    
