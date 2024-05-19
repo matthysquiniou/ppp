@@ -88,6 +88,7 @@ class Game :
                                 if nb_attacks < object.nb_attacks:
                                     self.player.take_damage(self.state,object.attaque,object.type)
                                 if object.number_ticks_since_dead > 180:
+                                    self.player.add_exp(20)
                                     self.objects.remove(object)
                             else:
                                 object.draw(display)
@@ -101,7 +102,7 @@ class Game :
                         self.put_basic_elemnts(display,mouse)
                         self.player.attaque(self,display)
 
-                        
+
 
                         for object in self.objects:
                             if isinstance(object, Ennemi):
@@ -110,6 +111,7 @@ class Game :
                                 if nb_attacks < object.nb_attacks:
                                     self.player.take_damage(self.state,object.attaque,object.type)
                                 if object.number_ticks_since_dead > 180:
+                                    self.player.add_exp(20)
                                     self.objects.remove(object)
                             else:
                                 object.draw(display)
@@ -183,7 +185,9 @@ class Game :
         display.blit(logo,(0,0))
 
         health_bar_px = self.player.health_point*(152/self.player.max_health)
-        pygame.draw.rect(display,(255,41,41),[(display.get_width()/2)-63,18,health_bar_px,21])  #152px full health
+        pygame.draw.rect(display,(255,41,41),[(display.get_width()/2)-63,18,health_bar_px,21])
+        exp_bar_px = self.player.exp*(152/100)
+        pygame.draw.rect(display,(41,41,255),[(display.get_width()/2)-63,18,exp_bar_px,5])  #152px full health
         health_bar = pygame.image.load('./images/health_bar.png').convert_alpha()
         health_bar = pygame.transform.scale(health_bar,(200,50))
         display.blit(health_bar,((display.get_width()/2)-100,0))
