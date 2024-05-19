@@ -111,11 +111,11 @@ class Ennemi(Objet):
     
     def takeDamage(self,damage,type,game):
         if self.faiblesse == type:
-            self.vie = self.vie - ((damage * 2) - self.defence)
+            self.vie = self.vie - max(0,((damage * 2) - self.defence))
         elif self.resistance == type:
-            self.vie = self.vie - ((damage * 0.5) - self.defence)
+            self.vie = self.vie - max(0,((damage * 0.5) - self.defence))
         else:
-            self.vie = self.vie - ((damage) - self.defence)
+            self.vie = self.vie - max(0,((damage) - self.defence))
         self.animation_damage = True
         if self.vie <= 0 and not self.dead:
             self.dead = True

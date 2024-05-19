@@ -81,8 +81,8 @@ class Tree:
                     
             for x,pos in enumerate(self.button_pos) :
                 if self.button_texts[x] == "+" or self.button_texts[x] == "-" or self.button_texts[x] == "back":
-                    if pos[0] <= mouse[0] <= pos[0]+50 and pos[1] <= mouse[1] <= pos[1]+50: 
-                                pygame.draw.rect(display,(150,150,150),[pos[0],pos[1],50,50])
+                    if pos[0]-55 <= mouse[0] <= pos[0]+73 and pos[1] <= mouse[1] <= pos[1]+35: 
+                        pygame.draw.rect(display,(150,150,150),[pos[0]-55,pos[1],128,35])
                 text = smallfont.render(self.button_texts[x], True , (255,255,255)) 
                 display.blit(text,(pos[0],pos[1]))
                 

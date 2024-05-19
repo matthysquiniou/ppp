@@ -42,7 +42,16 @@ class Game :
 
         self.map = Map("./config/map.txt",size)
 
-        
+    def reset(self):
+        self.player = Player(self.Wsize)
+
+        self.tree = Tree(self.player,self.Wsize)
+        self.state = State.MENU
+        self.wave = Wave(WaveParameters.WAVE_1.value)
+        self.lvl = 0
+        self.objects = []
+        self.sub_state = SubState.WAITING_WAVE
+        self.sub_state_save = SubState.WAITING_WAVE
 
     def draw(self,display):
         size = display.get_size()
@@ -58,10 +67,10 @@ class Game :
                 smallfont = pygame.font.SysFont('Corbel',35) 
                 
                 for x,pos in enumerate(self.button_pos) :
+                    if pos[0] <= mouse[0] <= pos[0]+140 and pos[1] <= mouse[1] <= pos[1]+40: 
+                        pygame.draw.rect(display,(150,150,150),[pos[0],pos[1],30,40]) 
                     text = smallfont.render('>  '+ menu_texts[x], True , (255,255,255)) 
                     display.blit(text,(pos[0],pos[1]))
-                    if pos[0] <= mouse[0] <= pos[0]+140 and pos[1] <= mouse[1] <= pos[1]+40: 
-                        pygame.draw.rect(display,(255,255,255),[pos[0],pos[1],30,40]) 
                 pass
 
             case State.LVLMANAGER:
@@ -135,9 +144,9 @@ class Game :
                     case SubState.SKILL_TREE:
                         self.tree.draw(display)
                     case SubState.WIN:
-                        self.afficher_ecran_win()
+                        self.afficher_ecran_fin("Bien joué, vous avez gagné",display,0,mouse)# remplacer 0 par un score
                     case SubState.LOSE:
-                        self.afficher_ecran_lose()
+                        self.afficher_ecran_fin("Dommage, vous avez perdu",display,0,mouse)# remplacer 0 par un score
 
             case State.LVLDEV:
                 self.put_basic_elemnts(display,mouse)
@@ -154,10 +163,16 @@ class Game :
                 pygame.quit()
                 sys.exit()
 
-    def afficher_ecran_win(self):
-        return
-    def afficher_ecran_lose(self):
-        return
+    def afficher_ecran_fin(self, text, display, score,mouse):
+        finfont = pygame.font.SysFont('Corbel',20,True) 
+        text1 = finfont.render(text, True , (255,255,255)) 
+        display.blit(text1,((display.get_width()//2)-100,(display.get_height()//2)-50))
+        text2 = finfont.render("Score : "+str(score), True , (255,255,255)) 
+        display.blit(text2,((display.get_width()//2)-25,(display.get_height()//2)))
+        text3 = finfont.render("Retour au menu", True , (255,255,255)) 
+        display.blit(text3,((0,0)))
+        if 0 <= mouse[0] <= 140 and 0 <= mouse[1] <= 20:
+            pygame.draw.rect(display,(150,150,150),[0,0,140,20]) 
 
     def check_where_click(self,mouse_x,mouse_y):
         match self.state:
@@ -184,6 +199,9 @@ class Game :
                 if 0 <= mouse_x <= 150 and 50 <= mouse_y <= 100:
                     if self.sub_state == SubState.WAITING_WAVE:
                         self.sub_state = SubState.WAVE_SPAWN
+                if 0 <= mouse_x <= 140 and 0 <= mouse_y <= 20:
+                    if self.sub_state in [SubState.WIN,SubState.LOSE]:
+                        self.reset()
             case State.LVLDEV:
                 if 0 <= mouse_x <= 50 and 0 <= mouse_y <= 50:
                     if self.sub_state in [SubState.WAITING_WAVE,SubState.WAVE_SPAWN,SubState.WAVE]:
