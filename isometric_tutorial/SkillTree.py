@@ -88,7 +88,6 @@ class Tree:
                 
 
     def check_click(self,x,y):
-        print(self.ask)
         if self.ask:
             for index,pos in enumerate(self.buttons_ask_pos):
                 if pos[0] <= x <= pos[0] + 50 and  pos[1] <= y <= pos[1]+50:
@@ -114,6 +113,9 @@ class Tree:
                             self.player.add_point(Type.PHYSIQUE,1)
                         else : 
                             self.player.remain_points = self.player.remain_points -1
+
+                    self.update_player()
+                    print(self.player.social_points)
                     self.ask = False
                     break
         else:
@@ -152,3 +154,13 @@ class Tree:
                                 self.question_index = random.randint(0,len(ques)-1)
 
                                 self.question = QUESTIONS["PHYSIC"][self.question_index][0]
+
+
+    def update_player(self):
+        self.social = self.player.social_points
+        self.techno = self.player.technologic_points
+        self.physic = self.player.physical_points
+
+        self.button_texts[4] = "Social : "+str(self.social)
+        self.button_texts[5] = "Tech : "+str(self.techno)
+        self.button_texts[6] = "Physic : "+str(self.physic)
