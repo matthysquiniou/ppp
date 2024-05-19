@@ -88,7 +88,6 @@ class Game :
                                 if nb_attacks < object.nb_attacks:
                                     self.player.take_damage(self.state,object.attaque,object.type)
                                 if object.number_ticks_since_dead > 180:
-                                    self.player.add_exp(20)
                                     self.objects.remove(object)
                             else:
                                 object.draw(display)
@@ -110,7 +109,6 @@ class Game :
                                 if nb_attacks < object.nb_attacks:
                                     self.player.take_damage(self.state,object.attaque,object.type)
                                 if object.number_ticks_since_dead > 180:
-                                    self.player.add_exp(20)
                                     self.objects.remove(object)
                             else:
                                 object.draw(display)
@@ -118,7 +116,6 @@ class Game :
                             self.sub_state = SubState.WAITING_WAVE
                             self.wave.next_wave()
                     case SubState.SKILL_TREE:
-                        
                         self.tree.draw(display)
                     case SubState.WIN:
                         print("")
@@ -199,7 +196,8 @@ class Game :
         castle_img = pygame.transform.scale(castle_img,(200,200))
         display.blit(castle_img,(self.Wsize[0]//2-95,self.Wsize[1]//2-95))
 
-
-        
+        levelfont = pygame.font.SysFont('Corbel',20,True) 
+        text = levelfont.render('Niveau '+str(self.player.level), True , (0,0,0)) 
+        display.blit(text,((display.get_width()/2)-180,18))
 
    

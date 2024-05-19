@@ -9,9 +9,9 @@ import math
 class Player:
 
     def __init__(self,Wsize):
-        self.social_points = 150
-        self.physical_points = 150
-        self.technologic_points = 150
+        self.social_points = 20
+        self.physical_points = 20
+        self.technologic_points = 20
         self.health_point = 1000
         self.max_health = 1000
         self.remain_points = 15
@@ -42,6 +42,8 @@ class Player:
             self.exp = (acc+self.exp)-100
 
             if self.exp >= 100:
+                if self.level == 99:
+                    return
                 self.exp = self.exp-100
                 self.level_up()
             self.level_up()
@@ -96,14 +98,14 @@ class Player:
                 self.generate_attaque(nearest_ennemi,distance_nearest)
         else:
             self.ticks_since_last_attack = self.ticks_since_last_attack + 1
-        self.draw_attaque(display)
+        self.draw_attaque(display,game)
     
     def generate_attaque(self,ennemi,distance):
         self.list_of_lauched_attack.append(PlayerAttaque(ennemi,self.x,self.y,distance,self.social_points,self.technologic_points,self.physical_points))
 
-    def draw_attaque(self,display):
+    def draw_attaque(self,display,game):
         for attaque in self.list_of_lauched_attack[:]:
-            touched = attaque.draw(display)
+            touched = attaque.draw(display,game)
             if touched:
                 self.list_of_lauched_attack.remove(attaque)
 

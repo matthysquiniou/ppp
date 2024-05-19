@@ -20,6 +20,7 @@ class Ennemi(Objet):
         self.frame_since_last_sprite_update = 0
         self.action = None
         self.type = type
+        self.rank = rank.value
         self.nb_attacks = 0
         self.direction = self.calculer_coefficients_direction(x,y)
         self.animation_damage = False
@@ -100,7 +101,7 @@ class Ennemi(Objet):
         coeffY = dy / norm
         return [coeffX, coeffY]
     
-    def takeDamage(self,damage,type):
+    def takeDamage(self,damage,type,game):
         if self.faiblesse == type:
             self.vie = self.vie - ((damage * 2) - self.defence)
         elif self.resistance == type:
@@ -110,3 +111,5 @@ class Ennemi(Objet):
         self.animation_damage = True
         if self.vie <= 0:
             self.dead = True
+            game.player.add_exp(20*self.rank["stat_mult"])
+            game.wave.remaining_ennemi = game.wave.remaining_ennemi - 1

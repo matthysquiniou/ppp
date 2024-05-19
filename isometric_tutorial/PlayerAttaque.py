@@ -33,13 +33,13 @@ class PlayerAttaque:
         choix = random.choices(types, weights=probabilites, k=sp+tp+pp)[0]
         return choix
 
-    def draw(self,display): #TODO: rentre en colision trop tot
+    def draw(self,display,game): #TODO: rentre en colision trop tot
         self.update_distance()
         self.distance_run = self.distance_run + abs(self.direction[0]*self.vitesse*0.15) + abs(self.direction[1]*self.vitesse*0.15)
         self.x = self.x + self.direction[0]*self.vitesse*0.15
         self.y = self.y + self.direction[1]*self.vitesse*0.15
         if self.distance_run >= self.ennemi_distance:
-            self.ennemi.takeDamage(self.damage,self.attaque_type)
+            self.ennemi.takeDamage(self.damage,self.attaque_type,game)
             return True
         pygame.draw.circle(display, self.item_to_render_color, (self.x, self.y), self.damage/3)
         return False

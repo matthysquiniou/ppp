@@ -19,6 +19,7 @@ class Wave:
         self.elite_number =  self.wave_parameter["elite_number"]
         self.radius_spawn = self.wave_parameter["radius_spawn"]
         self.spawn_ticks_required = (self.max_spawn_ticks/self.wave_parameter["ennemi_number"])-1
+        self.remaining_ennemi = self.ennemi_number
         self.spawn_ticks_counter = 0
 
 
@@ -30,6 +31,7 @@ class Wave:
         self.strong_number =  self.wave_parameter["strong_number"]
         self.elite_number =  self.wave_parameter["elite_number"]
         self.spawn_ticks_required = (self.max_spawn_ticks/self.wave_parameter["ennemi_number"])-1
+        self.remaining_ennemi = self.ennemi_number
 
     def spawn(self, game):
         self.spawn_ticks_counter = self.spawn_ticks_counter + 1
@@ -69,9 +71,7 @@ class Wave:
 
         return choix
     
-    def choisir_position_ennemi(self,center=(480,270)):#TODO
-        
-
+    def choisir_position_ennemi(self,center=(480,270)):
         radius = random.randint(self.radius_spawn[0],self.radius_spawn[1])
         ligne_depart = random.randint(0,3)
         pos_depart = [150,150]
