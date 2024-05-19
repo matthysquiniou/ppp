@@ -94,31 +94,31 @@ class Tree:
                     
                     if self.question_thema == "SOCIAL":
                         if self.buttons_ask_texts[index] == "Vrai" and QUESTIONS["SOCIAL"][self.question_index][1]:
-                            self.player.add_point(Type.MANAGE,1)
+                            self.player.add_point(Type.MANAGE,5)
                         elif self.buttons_ask_texts[index] == "Faux" and not QUESTIONS["SOCIAL"][self.question_index][1]:
-                            self.player.add_point(Type.MANAGE,1)
+                            self.player.add_point(Type.MANAGE,5)
                         elif self.buttons_ask_texts[index] == "back":
                             pass
                         else : 
-                            self.player.remain_points = self.player.remain_points -1
+                            self.player.remain_points = self.player.remain_points -5
                     elif self.question_thema == "TECHNO":
                         if self.buttons_ask_texts[index] == "Vrai" and QUESTIONS["TECHNO"][self.question_index][1]:
-                            self.player.add_point(Type.TECHNO,1)
+                            self.player.add_point(Type.TECHNO,5)
                         elif self.buttons_ask_texts[index] == "Faux" and not QUESTIONS["TECHNO"][self.question_index][1]:
-                            self.player.add_point(Type.TECHNO,1)
+                            self.player.add_point(Type.TECHNO,5)
                         elif self.buttons_ask_texts[index] == "back":
                             pass
                         else : 
-                            self.player.remain_points = self.player.remain_points -1
+                            self.player.remain_points = self.player.remain_points -5
                     elif self.question_thema == "TECHNO":
                         if self.buttons_ask_texts[index] == "Vrai" and QUESTIONS["PHYSIC"][self.question_index][1]:
-                            self.player.add_point(Type.PHYSIQUE,1)
+                            self.player.add_point(Type.PHYSIQUE,5)
                         elif self.buttons_ask_texts[index] == "Faux" and not QUESTIONS["PHYSIC"][self.question_index][1]:
-                            self.player.add_point(Type.PHYSIQUE,1)
+                            self.player.add_point(Type.PHYSIQUE,5)
                         elif self.buttons_ask_texts[index] == "back":
                             pass
                         else : 
-                            self.player.remain_points = self.player.remain_points -1
+                            self.player.remain_points = self.player.remain_points -5
                     
 
                     self.update_player()
@@ -140,7 +140,7 @@ class Tree:
                             
 
                     elif self.button_texts[index] == "+":
-                        if self.player.remain_points > 0 :
+                        if self.player.remain_points > 5 :
                             self.ask = True
                             if index % 3 == 1:
                                 self.question_thema = "SOCIAL"
