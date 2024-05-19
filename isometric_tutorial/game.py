@@ -100,8 +100,10 @@ class Game :
                     case SubState.WAVE:
                         self.put_basic_elemnts(display,mouse)
                         self.player.attaque(self,display)
+                        have_ennemi = False
                         for object in self.objects:
                             if isinstance(object, Ennemi):
+                                have_ennemi = True
                                 nb_attacks = object.nb_attacks
                                 object.draw(display)
                                 if nb_attacks < object.nb_attacks:
@@ -110,6 +112,9 @@ class Game :
                                     self.objects.remove(object)
                             else:
                                 object.draw(display)
+                        if not have_ennemi:
+                            self.sub_state = SubState.WAITING_WAVE
+                            self.wave.next_wave()
                     case SubState.SKILL_TREE:
                         
                         self.tree.draw(display)
