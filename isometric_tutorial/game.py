@@ -27,6 +27,8 @@ class Game :
         self.LOGO_POS = (size[0]//2-size[0]//5,100)
         self.LOGO_SIZE = (size[0]//2,size[1]//4)
 
+        self.tree = Tree(self.player,self.Wsize)
+
         self.Wsize = size
 
         self.player = Player()
@@ -105,8 +107,8 @@ class Game :
                             else:
                                 object.draw(display)
                     case SubState.SKILL_TREE:
-                        tree = Tree(self.player,self.Wsize)
-                        tree.draw(display)
+                        
+                        self.tree.draw(display)
                     case SubState.WIN:
                         print("")
                     case SubState.LOSE:
@@ -141,6 +143,8 @@ class Game :
                             case 2:
                                 self.state = State.QUIT
             case State.LVLMANAGER:
+                if self.sub_state == SubState.SKILL_TREE:
+                    self.tree.check_click(mouse_x,mouse_y)
                 if 0 <= mouse_x <= 50 and 0 <= mouse_y <= 50:
                     if self.sub_state in [SubState.WAITING_WAVE,SubState.WAVE_SPAWN,SubState.WAVE]:
                         self.sub_state_save = self.sub_state

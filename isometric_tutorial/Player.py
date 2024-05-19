@@ -1,5 +1,6 @@
 from Type import Type
 from State import State
+from SkillTree import Tree
 
 class Player:
 
@@ -9,14 +10,18 @@ class Player:
         self.technologic_points = 0
         self.health_point = 1000
         self.max_health = 1000
+        self.remain_points = 3
     
     def add_point(self,type:Type,number:int):
         if type == Type.PHYSIQUE:
             self.physical_points += number
+            self.remain_points -= number
         elif type == Type.TECHNO:
             self.technologic_points += number
+            self.remain_points -= number
         elif type == Type.MANAGE:
             self.social_points += number
+            self.remain_points -= number
 
     def take_damage(self,state: State, damage: int, enemi_type: Type):
         match state: #TODO: gérer les autres level
@@ -27,3 +32,14 @@ class Player:
                     self.health_point = self.health_point - (damage*0.5)
                 else: 
                     self.health_point = self.health_point - damage
+
+    def delete_point(self,type:Type,number:int):
+        if type == Type.PHYSIQUE:
+            self.physical_points -= number
+            self.remain_points += number
+        elif type == Type.TECHNO:
+            self.technologic_points -= number
+            self.remain_points += number
+        elif type == Type.MANAGE:
+            self.social_points -= number
+            self.remain_points += number
