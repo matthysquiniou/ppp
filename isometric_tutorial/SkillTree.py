@@ -1,6 +1,10 @@
 import pygame
 from Type import Type
 
+QUESTIONS = {
+    "SOCIAL" : [],
+    "TECHNO" : []
+}
 
 
 class Tree:
