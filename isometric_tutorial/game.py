@@ -129,6 +129,7 @@ class Game :
 
 
     def check_where_click(self,mouse_x,mouse_y):
+        print(mouse_x,mouse_y)
         match self.state:
             case State.MENU:
                 for x,pos in enumerate(self.button_pos):
