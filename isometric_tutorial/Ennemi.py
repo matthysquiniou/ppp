@@ -48,7 +48,7 @@ class Ennemi(Objet):
         if self.action in [PersonnageAction.WALK_BACKWARD_LEFT,PersonnageAction.WALK_BACKWARD_RIGHT,PersonnageAction.WALK_FORWARD_LEFT,PersonnageAction.WALK_FORWARD_RIGHT]: 
             self.updatePosition() 
         screen.blit(animation[self.current_sprite_index], (self.x,self.y))
-
+    
     def chooseAction(self):
         x2 = 480
         y2 = 270

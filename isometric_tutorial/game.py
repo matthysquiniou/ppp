@@ -109,6 +109,8 @@ class Game :
                                 object.draw(display)
                                 if nb_attacks < object.nb_attacks:
                                     self.player.take_damage(self.state,object.attaque,object.type)
+                                if object.number_ticks_since_dead > 180:
+                                    self.objects.remove(object)
                             else:
                                 object.draw(display)
                     case SubState.SKILL_TREE:
@@ -136,7 +138,6 @@ class Game :
 
 
     def check_where_click(self,mouse_x,mouse_y):
-        
         match self.state:
             case State.MENU:
                 for x,pos in enumerate(self.button_pos):
@@ -149,7 +150,6 @@ class Game :
                             case 2:
                                 self.state = State.QUIT
             case State.LVLMANAGER:
-                self.player.add_exp(20)
                 if self.sub_state == SubState.SKILL_TREE:
                     self.tree.check_click(mouse_x,mouse_y)
                 if 0 <= mouse_x <= 50 and 0 <= mouse_y <= 50:
@@ -184,10 +184,6 @@ class Game :
 
         health_bar_px = self.player.health_point*(152/self.player.max_health)
         pygame.draw.rect(display,(255,41,41),[(display.get_width()/2)-63,18,health_bar_px,21])  #152px full health
-        
-
-        exp_bar_px = self.player.exp*(152/100)
-        pygame.draw.rect(display,(41,41,255),[(display.get_width()/2)-63,18,exp_bar_px,5])  #152px full health
         health_bar = pygame.image.load('./images/health_bar.png').convert_alpha()
         health_bar = pygame.transform.scale(health_bar,(200,50))
         display.blit(health_bar,((display.get_width()/2)-100,0))
