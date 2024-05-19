@@ -100,7 +100,8 @@ class Game :
                             self.sub_state = SubState.WAVE
                             self.wave.spawn_ticks = 0
                         self.wave.spawn_ticks = self.wave.spawn_ticks + 1
-
+                        if self.player.health_point <= 0:
+                            self.sub_state = SubState.LOSE
                         
                     case SubState.WAVE:
                         self.put_basic_elemnts(display,mouse)
@@ -123,14 +124,20 @@ class Game :
                             else:
                                 object.draw(display)
                         if not have_ennemi:
-                            self.sub_state = SubState.WAITING_WAVE
-                            self.wave.next_wave()
+                            if self.wave.wave_parameter["next_wave"] == None:
+                                self.sub_state = SubState.WIN
+                            else:
+                                self.sub_state = SubState.WAITING_WAVE
+                                self.wave.next_wave()
+                        if self.player.health_point <= 0:
+                            self.sub_state = SubState.LOSE
+                            
                     case SubState.SKILL_TREE:
                         self.tree.draw(display)
                     case SubState.WIN:
-                        print("")
+                        self.afficher_ecran_win()
                     case SubState.LOSE:
-                        print("")
+                        self.afficher_ecran_lose()
 
             case State.LVLDEV:
                 self.put_basic_elemnts(display,mouse)
@@ -147,6 +154,10 @@ class Game :
                 pygame.quit()
                 sys.exit()
 
+    def afficher_ecran_win(self):
+        return
+    def afficher_ecran_lose(self):
+        return
 
     def check_where_click(self,mouse_x,mouse_y):
         match self.state:
