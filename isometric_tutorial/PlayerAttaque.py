@@ -41,7 +41,7 @@ class PlayerAttaque:
         if self.distance_run >= self.ennemi_distance:
             self.ennemi.takeDamage(self.damage,self.attaque_type,game)
             return True
-        pygame.draw.circle(display, self.item_to_render_color, (self.x, self.y), self.damage/3)
+        pygame.draw.circle(display, self.item_to_render_color, (self.x, self.y), math.log2(self.damage))
         return False
 
     def calculer_coefficients_direction(self, x2, y2):

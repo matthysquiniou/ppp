@@ -80,6 +80,11 @@ class Game :
                         self.put_basic_elemnts(display,mouse)
                         self.player.attaque(self,display)
                         self.wave.spawn(self)
+
+                        wavefont = pygame.font.SysFont('Corbel',20,True) 
+                        text = wavefont.render('Wave '+str(self.wave.wave_parameter["wave_number"]), True , (0,0,0)) 
+                        display.blit(text,(0,115))
+
                         
                         for object in self.objects:
                             if isinstance(object, Ennemi):
@@ -101,6 +106,11 @@ class Game :
                         self.put_basic_elemnts(display,mouse)
                         self.player.attaque(self,display)
                         have_ennemi = False
+
+                        wavefont = pygame.font.SysFont('Corbel',20,True) 
+                        text = wavefont.render('Wave '+str(self.wave.wave_parameter["wave_number"]), True , (0,0,0)) 
+                        display.blit(text,(0,115))
+
                         for object in self.objects:
                             if isinstance(object, Ennemi):
                                 have_ennemi = True
