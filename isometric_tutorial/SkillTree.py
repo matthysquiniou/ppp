@@ -140,7 +140,7 @@ class Tree:
                             
 
                     elif self.button_texts[index] == "+":
-                        if self.player.remain_points > 5 :
+                        if self.player.remain_points >= 5 :
                             self.ask = True
                             if index % 3 == 1:
                                 self.question_thema = "SOCIAL"
