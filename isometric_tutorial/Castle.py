@@ -4,21 +4,25 @@ class Castle(Enum):
     CASTLE_1 = {
         "next_level_required" : 3,
         "asset" : "./images/small_wood_castle.png",
+        "attack_speed" : 1/3,
         "next_castle" : None
     }
     CASTLE_2 = {
         "next_level_required" : 7,
         "asset" : "./images/wood_castle.png",
+        "attack_speed" : 0.5,
         "next_castle" : None
     }
     CASTLE_3 = {
         "next_level_required" : 12,
         "asset" : "./images/castle.png",
+        "attack_speed" : 0.7,
         "next_castle" : None
     }
     CASTLE_4 = {
         "next_level_required" : 999999999,
         "asset" : "./images/big_castle.png",
+        "attack_speed" : 0.9,
         "next_castle" : None
     }
 
