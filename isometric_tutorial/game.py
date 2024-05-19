@@ -26,12 +26,12 @@ class Game :
         self.QUIT_BUTTON_POS = (size[0]//2-size[0]//10,size[1]-150)
         self.LOGO_POS = (size[0]//2-size[0]//5,100)
         self.LOGO_SIZE = (size[0]//2,size[1]//4)
-
+        self.player = Player()
         self.tree = Tree(self.player,self.Wsize)
 
         self.Wsize = size
 
-        self.player = Player()
+        
 
         self.button_pos = [self.MANAGER_BUTTON_POS,self.DEV_BUTTON_POS,self.QUIT_BUTTON_POS,]
         self.state = State.MENU

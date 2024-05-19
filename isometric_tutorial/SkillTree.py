@@ -74,4 +74,4 @@ class Tree:
                     elif self.button_texts[index] == "+":
                         self.ask = True
                         if index % 3 == 1:
-                                pass
+                            pass
