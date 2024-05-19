@@ -100,6 +100,9 @@ class Game :
                     case SubState.WAVE:
                         self.put_basic_elemnts(display,mouse)
                         self.player.attaque(self,display)
+
+                        
+
                         for object in self.objects:
                             if isinstance(object, Ennemi):
                                 nb_attacks = object.nb_attacks
