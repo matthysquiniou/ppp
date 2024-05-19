@@ -11,6 +11,8 @@ class Player:
         self.health_point = 1000
         self.max_health = 1000
         self.remain_points = 3
+        self.level = 1
+        self.castle = Castle.CASTLE_1.value
     
     def add_point(self,type:Type,number:int):
         if type == Type.PHYSIQUE:
@@ -43,3 +45,8 @@ class Player:
         elif type == Type.MANAGE:
             self.social_points -= number
             self.remain_points += number
+
+    def level_up(self):
+        self.level = self.level + 1
+        if self.level >= self.castle["next_level_required"]:
+            self.castle = self.castle["next_castle"].value
