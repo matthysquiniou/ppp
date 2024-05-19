@@ -9,13 +9,17 @@ with open("./config/map.txt","w") as f:
         for y in range(0,MapSize[1]):
                 
                 if (x > MapSize[0] // 3 and x < (MapSize[0] // 3) *2) or (y > MapSize[1] // 3 and y < (MapSize[1] // 3) *2):
-                    line += "2"
-                elif (x > MapSize[0] // 3 -5 and x < (MapSize[0] // 3) *2 +5) or (y > MapSize[1] // 3 -5 and y < (MapSize[1] // 3) *2 +5):
-                    line += "3"
-                else:
-                    if random.randint(0,10) == 5:
-                        line+= "0"
+                    if random.randint(0,30) == 5:
+                        line+= "2"
                     else:
-                        line+= "1"
+                        line+= "4"
+                elif (x > MapSize[0] // 3 -random.randint(0,15) and x < (MapSize[0] // 3) *2 +random.randint(0,15)) or (y > MapSize[1] // 3 -random.randint(0,15) and y < (MapSize[1] // 3) *2 +random.randint(0,15)):
+                    if random.randint(0,50) == 5:
+                        line+= "5"
+                    else:
+                        line += "3"
+                    
+                else:
+                    line+= "1"
         f.write(line+'\n')
     
