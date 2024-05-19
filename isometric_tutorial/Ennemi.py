@@ -49,6 +49,9 @@ class Ennemi(Objet):
             self.updatePosition() 
         screen.blit(animation[self.current_sprite_index], (self.x,self.y))
 
+    def get_number_of_ticks_since_dead(self):
+        return self.number_ticks_since_dead
+    
     def chooseAction(self):
         x2 = 480
         y2 = 270
