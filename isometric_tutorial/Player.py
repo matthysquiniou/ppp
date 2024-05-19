@@ -1,7 +1,7 @@
 from Type import Type
 from State import State
 from SkillTree import Tree
-
+from Castle import Castle
 class Player:
 
     def __init__(self):

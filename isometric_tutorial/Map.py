@@ -51,9 +51,3 @@ class Map:
                     coeff_y = (y-len(map_data)//2)
                     
                     self.dis.blit(walk_img, ((size[0]//2) + coeff_x  * 10-coeff_y*10,(size[1]//2)+ coeff_y*5+coeff_x*5))
-        castle_img = pygame.image.load('./images/castle.png').convert()
-        castle_img.set_colorkey((0, 0, 0))
-        castle_img = pygame.transform.scale(castle_img,(200,200))
-        self.dis.blit(castle_img,(size[0]//2-95,size[1]//2-95))
-
-        print(self.dis)

@@ -21,7 +21,7 @@ class Wave:
 
 
     def next_wave(self):
-        self.wave_parameter = self.wave_parameter["next_wave"]
+        self.wave_parameter = self.wave_parameter["next_wave"].value
         self.max_spawn_ticks = self.wave_parameter["number_of_ticks"]
         self.ennemi_number =  self.wave_parameter["ennemi_number"]
         self.base_number =  self.wave_parameter["base_number"]
@@ -30,7 +30,7 @@ class Wave:
 
     def spawn(self, game):
         self.spawn_ticks_counter = self.spawn_ticks_counter + 1
-        if self.spawn_ticks_counter >= self.spawn_ticks_required:
+        if self.spawn_ticks_counter >= self.spawn_ticks_required and self.ennemi_number != 0:
             self.spawn_ticks_counter = 0
             state = game.state
             match state:
@@ -44,7 +44,6 @@ class Wave:
     def choisir_type_ennemi(self,proportion):
         types = list(proportion.keys())
         probabilites = list(proportion.values())
-        print(types,probabilites)
         choix = random.choices(types, weights=probabilites, k=1)[0]
         return choix
 
