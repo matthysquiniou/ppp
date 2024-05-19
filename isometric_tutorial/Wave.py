@@ -5,6 +5,7 @@ from EnnemiProportion import EnnemiProportion
 from Ennemi import Ennemi
 from Rank import Rank
 import random
+import math
 
 class Wave:
 
@@ -16,6 +17,7 @@ class Wave:
         self.base_number =  self.wave_parameter["base_number"]
         self.strong_number =  self.wave_parameter["strong_number"]
         self.elite_number =  self.wave_parameter["elite_number"]
+        self.radius_spawn = self.wave_parameter["radius_spawn"]
         self.spawn_ticks_required = (self.max_spawn_ticks/self.wave_parameter["ennemi_number"])-1
         self.spawn_ticks_counter = 0
 
@@ -67,6 +69,32 @@ class Wave:
 
         return choix
     
-    def choisir_position_ennemi(self):#TODO
-        return [150,150]
+    def choisir_position_ennemi(self,center=(480,270)):#TODO
+        
+
+        radius = random.randint(self.radius_spawn[0],self.radius_spawn[1])
+        ligne_depart = random.randint(0,3)
+        pos_depart = [150,150]
+        if ligne_depart == 0:
+            i = random.randint(3,5)
+            pos =  i*math.pi/ i
+            pos_depart = [int(math.cos(pos)*radius),int(math.sin(pos)*radius)]
+        elif ligne_depart == 1:
+            i = random.randint(3,5)
+            pos =  i*math.pi/ i
+            pos_depart = [int(math.cos(-pos)*radius),int(math.sin(-pos)*radius)]
+        elif ligne_depart == 2:
+            i = random.randint(4,5)
+            pos =  (i-1)*math.pi/ i
+            pos_depart = [int(math.cos(-pos)*radius),int(math.sin(-pos)*radius)]
+        else:
+            i = random.randint(4,5)
+            pos =  (i-1)*math.pi/ i
+            pos_depart = [int(math.cos(pos)*radius),int(math.sin(pos)*radius)]
+        
+        pos_depart = [center[0]+pos_depart[0],center[1]+pos_depart[1]]
+
+
+
+        return pos_depart
 

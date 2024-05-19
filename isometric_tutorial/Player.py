@@ -22,6 +22,7 @@ class Player:
         self.list_of_lauched_attack = []
         self.ticks_since_last_attack = 0
         self.ticks_needed_for_attack = 60/self.castle["attack_speed"]
+        self.exp = 0
     
     def add_point(self,type:Type,number:int):
         if type == Type.PHYSIQUE:
@@ -33,6 +34,19 @@ class Player:
         elif type == Type.MANAGE:
             self.social_points += number
             self.remain_points -= number
+
+    def add_exp(self,number:int):
+        acc = number/self.level
+
+        if acc +self.exp >= 100:
+            self.exp = (acc+self.exp)-100
+
+            if self.exp >= 100:
+                self.exp = self.exp-100
+                self.level_up()
+            self.level_up()
+        else:
+            self.exp = self.exp + acc
 
     def take_damage(self,state: State, damage: int, enemi_type: Type):
         match state: #TODO: gérer les autres level

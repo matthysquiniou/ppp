@@ -7,7 +7,8 @@ class WaveParameters(Enum):
         "strong_number" : 0,
         "elite_number" : 0,
         "number_of_ticks" : 1800,
-        "next_wave": None
+        "next_wave": None,
+        "radius_spawn":[300,350]
     }
     WAVE_2 = {
         "ennemi_number" : 10,
@@ -15,7 +16,8 @@ class WaveParameters(Enum):
         "strong_number" : 2,
         "elite_number" : 0,
         "number_of_ticks" : 1800,
-        "next_wave": None
+        "next_wave": None,
+        "radius_spawn":[300,350]
     }
     WAVE_3 = {
         "ennemi_number" : 15,
@@ -23,7 +25,8 @@ class WaveParameters(Enum):
         "strong_number" : 3,
         "elite_number" : 0,
         "number_of_ticks" : 1800,
-        "next_wave": None
+        "next_wave": None,
+        "radius_spawn":[300,350]
     }
     WAVE_4 = {
         "ennemi_number" : 25,
@@ -31,7 +34,8 @@ class WaveParameters(Enum):
         "strong_number" : 5,
         "elite_number" : 0,
         "number_of_ticks" : 1800,
-        "next_wave": None
+        "next_wave": None,
+        "radius_spawn":[300,350]
     }
     WAVE_5 = {
         "ennemi_number" : 35,
@@ -39,7 +43,8 @@ class WaveParameters(Enum):
         "strong_number" : 7,
         "elite_number" : 2,
         "number_of_ticks" : 1800,
-        "next_wave": None
+        "next_wave": None,
+        "radius_spawn":[300,350]
     }
     WAVE_6 = {
         "ennemi_number" : 50,
@@ -47,7 +52,8 @@ class WaveParameters(Enum):
         "strong_number" : 10,
         "elite_number" : 5,
         "number_of_ticks" : 1800,
-        "next_wave": None
+        "next_wave": None,
+        "radius_spawn":[300,350]
     }
 
     @classmethod
