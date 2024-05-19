@@ -26,8 +26,9 @@ class Game :
         self.QUIT_BUTTON_POS = (size[0]//2-size[0]//10,size[1]-150)
         self.LOGO_POS = (size[0]//2-size[0]//5,100)
         self.LOGO_SIZE = (size[0]//2,size[1]//4)
-        self.player = Player()
+
         self.Wsize = size
+        self.player = Player(self.Wsize)
 
         self.tree = Tree(self.player,self.Wsize)
 
@@ -77,7 +78,7 @@ class Game :
 
                     case SubState.WAVE_SPAWN:
                         self.put_basic_elemnts(display,mouse)
-                        
+                        self.player.attaque(self,display)
                         self.wave.spawn(self)
                         
                         for object in self.objects:
@@ -86,6 +87,8 @@ class Game :
                                 object.draw(display)
                                 if nb_attacks < object.nb_attacks:
                                     self.player.take_damage(self.state,object.attaque,object.type)
+                                if object.number_ticks_since_dead > 180:
+                                    self.objects.remove(object)
                             else:
                                 object.draw(display)
                         if self.wave.spawn_ticks > self.wave.max_spawn_ticks:
@@ -96,6 +99,7 @@ class Game :
                         
                     case SubState.WAVE:
                         self.put_basic_elemnts(display,mouse)
+                        self.player.attaque(self,display)
                         for object in self.objects:
                             if isinstance(object, Ennemi):
                                 nb_attacks = object.nb_attacks

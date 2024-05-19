@@ -27,6 +27,7 @@ class Wave:
         self.base_number =  self.wave_parameter["base_number"]
         self.strong_number =  self.wave_parameter["strong_number"]
         self.elite_number =  self.wave_parameter["elite_number"]
+        self.spawn_ticks_required = (self.max_spawn_ticks/self.wave_parameter["ennemi_number"])-1
 
     def spawn(self, game):
         self.spawn_ticks_counter = self.spawn_ticks_counter + 1
