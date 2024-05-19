@@ -83,7 +83,9 @@ class Player:
             self.ticks_since_last_attack = 0
             for object in game.objects:
                 if isinstance(object,Ennemi):
-                    new_distance = math.sqrt((object.x - self.x)**2 + (object.y - self.y)**2)
+                    if object.dead:
+                        continue
+                    new_distance = math.sqrt((object.x - (self.x+100))**2 + (object.y - (self.y+100))**2)
                     if nearest_ennemi == None:
                         nearest_ennemi = object 
                         distance_nearest = new_distance
