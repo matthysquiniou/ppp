@@ -13,6 +13,8 @@ class Player:
         self.remain_points = 3
         self.level = 1
         self.castle = Castle.CASTLE_1.value
+
+        self.exp = 0
     
     def add_point(self,type:Type,number:int):
         if type == Type.PHYSIQUE:
@@ -24,6 +26,19 @@ class Player:
         elif type == Type.MANAGE:
             self.social_points += number
             self.remain_points -= number
+
+    def add_exp(self,number:int):
+        acc = number/self.level
+
+        if acc +self.exp >= 100:
+            self.exp = (acc+self.exp)-100
+
+            if self.exp >= 100:
+                self.exp = self.exp-100
+                self.level_up()
+            self.level_up()
+        else:
+            self.exp = self.exp + acc
 
     def take_damage(self,state: State, damage: int, enemi_type: Type):
         match state: #TODO: gérer les autres level
