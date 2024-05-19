@@ -9,7 +9,6 @@ class PlayerAttaque:
         self.x = x+100
         self.y = y+100
         self.direction = self.calculer_coefficients_direction(ennemi.x,ennemi.y)
-        angle = self.calculer_angle_direction()
         self.attaque_type = self.choose_attack_type(social_points,technologic_points,physical_points)
         self.vitesse = 25
         self.ennemi_distance = ennemi_distance
@@ -19,17 +18,13 @@ class PlayerAttaque:
         match self.attaque_type:
             case Type.MANAGE:
                 self.damage = social_points
-                item_to_render = pygame.font.SysFont('Corbel',social_points+4) 
-                self.item_to_render = item_to_render.render("MANAGEMENT", True , (0,0,0)) 
+                self.item_to_render_color = (255, 0, 0)
             case Type.TECHNO:  
                 self.damage = technologic_points
-                item_to_render = pygame.font.SysFont('Corbel',technologic_points+4) 
-                self.item_to_render = item_to_render.render("TECHNOLOGIE", True , (0,0,0)) 
+                self.item_to_render_color = (0, 255, 0)
             case Type.PHYSIQUE:
                 self.damage = physical_points
-                item_to_render = pygame.font.SysFont('Corbel',physical_points+4) 
-                self.item_to_render = item_to_render.render("PHYSIQUE", True , (0,0,0)) 
-        self.item_to_render = pygame.transform.rotate(self.item_to_render, angle)
+                self.item_to_render_color = (0, 0, 255)
 
 
     def choose_attack_type(self,sp,tp,pp):
@@ -46,7 +41,7 @@ class PlayerAttaque:
         if self.distance_run >= self.ennemi_distance:
             self.ennemi.takeDamage(self.damage,self.attaque_type)
             return True
-        display.blit(self.item_to_render,(self.x,self.y))
+        pygame.draw.circle(display, self.item_to_render_color, (self.x, self.y), self.damage/3)
         return False
 
     def calculer_coefficients_direction(self, x2, y2):
@@ -58,12 +53,6 @@ class PlayerAttaque:
         coeffX = dx / norm
         coeffY = dy / norm
         return [coeffX, coeffY]
-    
-    def calculer_angle_direction(self):#TODO: marche pas bien
-        angle_radians = math.atan2(self.direction[1], self.direction[0])
-        angle_degrees = math.degrees(angle_radians)
-
-        return angle_degrees
     
     def update_distance(self):
         self.ennemi_distance = math.sqrt((self.ennemi.x - self.x) ** 2 + (self.ennemi.y - self.y) ** 2)
