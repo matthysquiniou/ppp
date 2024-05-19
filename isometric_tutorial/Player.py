@@ -1,6 +1,6 @@
 from Type import Type
 from State import State
-
+from Castle import Castle
 class Player:
 
     def __init__(self):
@@ -9,6 +9,8 @@ class Player:
         self.technologic_points = 0
         self.health_point = 1000
         self.max_health = 1000
+        self.level = 15
+        self.castle = Castle.CASTLE_1.value
     
     def add_point(self,type:Type,number:int):
         if type == Type.PHYSIQUE:
@@ -27,3 +29,8 @@ class Player:
                     self.health_point = self.health_point - (damage*0.5)
                 else: 
                     self.health_point = self.health_point - damage
+
+    def level_up(self):
+        self.level = self.level + 1
+        if self.level >= self.castle["next_level_required"]:
+            self.castle = self.castle["next_castle"].value

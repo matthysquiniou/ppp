@@ -170,11 +170,18 @@ class Game :
         logo = pygame.image.load('./images/idea.png').convert_alpha()
         logo = pygame.transform.scale(logo,(50,50))
         display.blit(logo,(0,0))
+
         health_bar_px = self.player.health_point*(152/self.player.max_health)
         pygame.draw.rect(display,(255,41,41),[(display.get_width()/2)-63,18,health_bar_px,21])  #152px full health
         health_bar = pygame.image.load('./images/health_bar.png').convert_alpha()
         health_bar = pygame.transform.scale(health_bar,(200,50))
         display.blit(health_bar,((display.get_width()/2)-100,0))
+
+        castle_img = pygame.image.load(self.player.castle["asset"]).convert_alpha()
+        castle_img.set_colorkey((0, 0, 0))
+        castle_img = pygame.transform.scale(castle_img,(200,200))
+        display.blit(castle_img,(self.Wsize[0]//2-95,self.Wsize[1]//2-95))
+
 
         
 
