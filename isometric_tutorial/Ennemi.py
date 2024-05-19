@@ -4,6 +4,7 @@ from Rank import Rank
 from Action import Action
 from PersonnageAction import PersonnageAction
 import math
+import pygame
 
 class Ennemi(Objet):
 
@@ -15,6 +16,7 @@ class Ennemi(Objet):
         self.defence = type.value["defence"] * rank.value["stat_mult"]
         self.attaque = type.value["attaque"]  * rank.value["stat_mult"]
         self.vie = type.value["vie"]  * rank.value["stat_mult"]
+        self.max_vie = type.value["vie"]  * rank.value["stat_mult"]
         self.vitesse = type.value["vitesse"]
         self.current_sprite_index = 0
         self.frame_since_last_sprite_update = 0
@@ -49,7 +51,13 @@ class Ennemi(Objet):
         if self.action in [PersonnageAction.WALK_BACKWARD_LEFT,PersonnageAction.WALK_BACKWARD_RIGHT,PersonnageAction.WALK_FORWARD_LEFT,PersonnageAction.WALK_FORWARD_RIGHT]: 
             self.updatePosition() 
         screen.blit(animation[self.current_sprite_index], (self.x,self.y))
+        self.drawHealthbar(screen)
     
+    def drawHealthbar(self,screen):
+        pygame.draw.rect(screen,(0,0,0),[self.x+7,self.y,25,5])
+        pygame.draw.rect(screen,(255,255,255),[self.x+8,self.y+1,23,3])
+        pygame.draw.rect(screen,(255,41,41),[self.x+8,self.y+1,self.vie*(23/self.max_vie),3]) 
+
     def chooseAction(self):
         x2 = 480
         y2 = 270
