@@ -117,7 +117,7 @@ class Ennemi(Objet):
         else:
             self.vie = self.vie - ((damage) - self.defence)
         self.animation_damage = True
-        if self.vie <= 0:
+        if self.vie <= 0 and not self.dead:
             self.dead = True
             game.player.add_exp(20*self.rank["stat_mult"])
             game.wave.remaining_ennemi = game.wave.remaining_ennemi - 1
