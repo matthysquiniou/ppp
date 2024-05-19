@@ -69,11 +69,11 @@ class Game :
                     case SubState.WAITING_WAVE:
                         self.put_basic_elemnts(display,mouse)
 
-                        if 0 <= mouse[0] <= 150 and 100 <= mouse[1] <= 150:
-                            pygame.draw.rect(display,(255,255,255),[0,100,150,50]) 
+                        if 0 <= mouse[0] <= 150 and 50 <= mouse[1] <= 100:
+                            pygame.draw.rect(display,(255,255,255),[0,50,150,50]) 
                         next_wave_image = pygame.image.load('./images/next_wave.png').convert_alpha()
                         next_wave_image = pygame.transform.scale(next_wave_image,(150,50))
-                        display.blit(next_wave_image,(0,100))
+                        display.blit(next_wave_image,(0,50))
                         
 
                     case SubState.WAVE_SPAWN:
@@ -83,7 +83,7 @@ class Game :
 
                         wavefont = pygame.font.SysFont('Corbel',20,True) 
                         text = wavefont.render('Wave '+str(self.wave.wave_parameter["wave_number"]), True , (0,0,0)) 
-                        display.blit(text,(0,115))
+                        display.blit(text,(15,65))
 
                         
                         for object in self.objects:
@@ -109,7 +109,7 @@ class Game :
 
                         wavefont = pygame.font.SysFont('Corbel',20,True) 
                         text = wavefont.render('Wave '+str(self.wave.wave_parameter["wave_number"]), True , (0,0,0)) 
-                        display.blit(text,(0,115))
+                        display.blit(text,(15,65))
 
                         for object in self.objects:
                             if isinstance(object, Ennemi):
@@ -170,7 +170,7 @@ class Game :
                     elif self.sub_state == SubState.SKILL_TREE:
                          self.sub_state = self.sub_state_save
                     pass
-                if 0 <= mouse_x <= 150 and 100 <= mouse_y <= 150:
+                if 0 <= mouse_x <= 150 and 50 <= mouse_y <= 100:
                     if self.sub_state == SubState.WAITING_WAVE:
                         self.sub_state = SubState.WAVE_SPAWN
             case State.LVLDEV:
@@ -209,5 +209,13 @@ class Game :
         levelfont = pygame.font.SysFont('Corbel',20,True) 
         text = levelfont.render('Niveau '+str(self.player.level), True , (0,0,0)) 
         display.blit(text,((display.get_width()/2)-180,18))
+
+        wavefont = pygame.font.SysFont('Corbel',20,True) 
+        if self.sub_state == SubState.WAITING_WAVE:
+            text = wavefont.render('Ennemis prochaine wave :'+str(self.wave.ennemi_number), True , (0,0,0)) 
+            display.blit(text,(15,115))
+        else:
+            text = wavefont.render('Ennemies restant :'+str(self.wave.remaining_ennemi), True , (0,0,0)) 
+            display.blit(text,(15,115))
 
    
