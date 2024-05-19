@@ -87,7 +87,7 @@ class Game :
                                 object.draw(display)
                                 if nb_attacks < object.nb_attacks:
                                     self.player.take_damage(self.state,object.attaque,object.type)
-                                if object.get_number_of_ticks_since_dead() > 180:
+                                if object.number_ticks_since_dead > 180:
                                     self.objects.remove(object)
                             else:
                                 object.draw(display)
@@ -106,6 +106,8 @@ class Game :
                                 object.draw(display)
                                 if nb_attacks < object.nb_attacks:
                                     self.player.take_damage(self.state,object.attaque,object.type)
+                                if object.number_ticks_since_dead > 180:
+                                    self.objects.remove(object)
                             else:
                                 object.draw(display)
                     case SubState.SKILL_TREE:

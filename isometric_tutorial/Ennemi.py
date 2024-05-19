@@ -48,9 +48,6 @@ class Ennemi(Objet):
         if self.action in [PersonnageAction.WALK_BACKWARD_LEFT,PersonnageAction.WALK_BACKWARD_RIGHT,PersonnageAction.WALK_FORWARD_LEFT,PersonnageAction.WALK_FORWARD_RIGHT]: 
             self.updatePosition() 
         screen.blit(animation[self.current_sprite_index], (self.x,self.y))
-
-    def get_number_of_ticks_since_dead(self):
-        return self.number_ticks_since_dead
     
     def chooseAction(self):
         x2 = 480
