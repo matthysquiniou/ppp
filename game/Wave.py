@@ -4,6 +4,8 @@ from State import State
 from EnnemiProportion import EnnemiProportion
 from Ennemi import Ennemi
 from Rank import Rank
+from Type import Type
+from EnnemiBoss import EnnemiBoss
 import random
 import math
 
@@ -27,6 +29,21 @@ class Wave:
     def add_score(self,game):
         game.score = game.score + 180 - self.ticks/60
         self.ticks = 0
+
+    def boss_spawn(self,game):
+        rank = Rank.ELITE
+        type = None
+        state = game.state
+        match state:
+            case State.LVLMANAGER:
+                type = Type.PHYSIQUE
+            case State.LVLDEV:
+                type = Type.MANAGE
+            case State.LVLOUV:
+                type = Type.TECHNO
+        position_ennemi = self.choisir_position_ennemi()
+        self.ennemi_number -= 1
+        game.objects.append(EnnemiBoss(position_ennemi[0],position_ennemi[1],type,rank))
 
     def next_wave(self):
         self.wave_parameter = self.wave_parameter["next_wave"].value

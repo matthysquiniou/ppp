@@ -10,6 +10,7 @@ from State import State
 from SubState import SubState
 from Wave import Wave
 from WaveParameters import WaveParameters
+from EnnemiBoss import EnnemiBoss
 
 
 
@@ -85,7 +86,7 @@ class Game :
         text = wavefont.render('Wave '+str(self.wave.wave_parameter["wave_number"]), True , (0,0,0)) 
         display.blit(text,(15,65))
         for object in self.objects:
-            if isinstance(object, Ennemi):
+            if isinstance(object, Ennemi) or isinstance(object, EnnemiBoss):
                 nb_attacks = object.nb_attacks
                 object.draw(display)
                 if nb_attacks < object.nb_attacks:
@@ -100,6 +101,8 @@ class Game :
     def wave_spawn(self):
         self.wave.spawn(self)
         if self.wave.spawn_ticks > self.wave.max_spawn_ticks:
+            if self.wave.wave_parameter == WaveParameters.WAVE_BOSS:
+                self.wave.boss_spawn(self)
             self.sub_state = SubState.WAVE
             self.wave.spawn_ticks = 0
         self.wave.spawn_ticks = self.wave.spawn_ticks + 1
@@ -107,7 +110,7 @@ class Game :
     def wave_en_cours(self):
         have_ennemi = False
         for object in self.objects:
-            if isinstance(object, Ennemi):
+            if isinstance(object, Ennemi) or isinstance(object, EnnemiBoss):
                 have_ennemi = True
         if not have_ennemi:
             self.wave.add_score(self)

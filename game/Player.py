@@ -2,6 +2,7 @@ from Type import Type
 from State import State
 from Castle import Castle
 from Ennemi import Ennemi
+from EnnemiBoss import EnnemiBoss
 from PlayerAttaque import PlayerAttaque
 import math
 
@@ -99,7 +100,7 @@ class Player:
         if self.ticks_since_last_attack >= self.ticks_needed_for_attack:
             self.ticks_since_last_attack = 0
             for object in game.objects:
-                if isinstance(object,Ennemi):
+                if isinstance(object,Ennemi) or isinstance(object,EnnemiBoss):
                     if object.dead:
                         continue
                     new_distance = math.sqrt((object.x - (self.x+100))**2 + (object.y - (self.y+100))**2)

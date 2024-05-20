@@ -72,7 +72,7 @@ class WaveParameters(Enum):
         "wave_number": 7
     }
     WAVE_8 = {
-        "ennemi_number": 85,
+        "ennemi_number": 80,
         "base_number": 45,
         "strong_number": 20,
         "elite_number": 15,
@@ -82,7 +82,7 @@ class WaveParameters(Enum):
         "wave_number": 8
     }
     WAVE_9 = {
-        "ennemi_number": 110,
+        "ennemi_number": 100,
         "base_number": 50,
         "strong_number": 30,
         "elite_number": 20,
@@ -92,7 +92,7 @@ class WaveParameters(Enum):
         "wave_number": 9
     }
     WAVE_10 = {
-        "ennemi_number": 140,
+        "ennemi_number": 125,
         "base_number": 55,
         "strong_number": 40,
         "elite_number": 30,
@@ -102,10 +102,20 @@ class WaveParameters(Enum):
         "wave_number": 10
     }
     WAVE_11 = {
-        "ennemi_number": 175,
+        "ennemi_number": 150,
         "base_number": 60,
         "strong_number": 50,
         "elite_number": 40,
+        "number_of_ticks": 3600,
+        "next_wave": None,
+        "radius_spawn": [300, 350],
+        "wave_number": 11
+    }
+    WAVE_BOSS = {
+        "ennemi_number": 191,
+        "base_number": 70,
+        "strong_number": 65,
+        "elite_number": 55,
         "number_of_ticks": 3600,
         "next_wave": None,
         "radius_spawn": [300, 350],
@@ -124,5 +134,6 @@ class WaveParameters(Enum):
         cls.WAVE_8.value["next_wave"] = cls.WAVE_9
         cls.WAVE_9.value["next_wave"] = cls.WAVE_10
         cls.WAVE_10.value["next_wave"] = cls.WAVE_11
+        cls.WAVE_10.value["next_wave"] = cls.WAVE_BOSS
 
 WaveParameters.set_next_waves()
