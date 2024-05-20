@@ -33,7 +33,6 @@ class Game :
         self.button_pos = [self.MANAGER_BUTTON_POS,self.DEV_BUTTON_POS,self.OUV_BUTTON_POS,self.QUIT_BUTTON_POS]
         self.state = State.MENU
         self.wave = Wave(WaveParameters.WAVE_1.value)
-        self.lvl = 0
         self.objects = []
         self.sub_state = SubState.WAITING_WAVE
         self.sub_state_save = SubState.WAITING_WAVE
@@ -46,7 +45,6 @@ class Game :
         self.tree = Tree(self.player,self.Wsize)
         self.state = State.MENU
         self.wave = Wave(WaveParameters.WAVE_1.value)
-        self.lvl = 0
         self.objects = []
         self.sub_state = SubState.WAITING_WAVE
         self.sub_state_save = SubState.WAITING_WAVE
