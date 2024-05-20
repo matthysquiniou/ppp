@@ -333,14 +333,32 @@ class Tree:
                              "+",
                              "+"]
 
+    def wrap_text(self, text, font, max_width):
+        words = text.split(' ')
+        lines = []
+        current_line = ''
+        
+        for word in words:
+            test_line = current_line + word + ' '
+            if font.size(test_line)[0] <= max_width:
+                current_line = test_line
+            else:
+                lines.append(current_line)
+                current_line = word + ' '
+        lines.append(current_line)
+        return lines
+
     def draw(self,display):
         if self.ask:
             smallfont = pygame.font.SysFont('Corbel',35) 
             mouse = pygame.mouse.get_pos()
 
-            text = smallfont.render(self.question, True , (255,255,255)) 
-            display.blit(text,(self.question_pos))
-
+            lines = self.wrap_text(self.question, smallfont, 700)
+            y_offset = 0
+            for line in lines:
+                text = smallfont.render(line, True, (255, 255, 255))
+                display.blit(text, (self.question_pos[0], self.question_pos[1] + y_offset))
+                y_offset += smallfont.get_height()
 
             for x,pos in enumerate(self.buttons_ask_pos) :
                 if pos[0] <= mouse[0] <= pos[0]+50 and pos[1] <= mouse[1] <= pos[1]+50: 
