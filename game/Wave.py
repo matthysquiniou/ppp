@@ -21,6 +21,7 @@ class Wave:
         self.spawn_ticks_required = (self.max_spawn_ticks/self.wave_parameter["ennemi_number"])-1
         self.remaining_ennemi = self.ennemi_number
         self.spawn_ticks_counter = 0
+        self.ennemi_proportion = None
 
 
     def next_wave(self):
@@ -39,12 +40,16 @@ class Wave:
             self.spawn_ticks_counter = 0
             state = game.state
             match state:
-                case State.LVLMANAGER:#TODO : gerer les autres states
-                    ennemi_proportion = EnnemiProportion.LVLMANAGER.value
-                    type_ennemi = self.choisir_type_ennemi(ennemi_proportion)
-                    rank_ennemi = self.choisir_rank_ennemi()
-                    position_ennemi = self.choisir_position_ennemi()
-                    game.objects.append(Ennemi(position_ennemi[0],position_ennemi[1],type_ennemi,rank_ennemi))
+                case State.LVLMANAGER:
+                    self.ennemi_proportion = EnnemiProportion.LVLMANAGER.value
+                case State.LVLDEV:
+                    self.ennemi_proportion = EnnemiProportion.LVLDEV.value
+                case State.LVLOUV:
+                    self.ennemi_proportion = EnnemiProportion.LVLOUV.value
+            type_ennemi = self.choisir_type_ennemi(self.ennemi_proportion)
+            rank_ennemi = self.choisir_rank_ennemi()
+            position_ennemi = self.choisir_position_ennemi()
+            game.objects.append(Ennemi(position_ennemi[0],position_ennemi[1],type_ennemi,rank_ennemi))
         
     def choisir_type_ennemi(self,proportion):
         types = list(proportion.keys())

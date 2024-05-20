@@ -51,11 +51,27 @@ class Player:
             self.exp = self.exp + acc
 
     def take_damage(self,state: State, damage: int, enemi_type: Type):
-        match state: #TODO: gérer les autres level
+        match state:
             case state.LVLMANAGER :
                 if enemi_type == Type.TECHNO:
                     self.health_point = self.health_point - (damage*2)
                 elif enemi_type == Type.PHYSIQUE:
+                    self.health_point = self.health_point - (damage*0.5)
+                else: 
+                    self.health_point = self.health_point - damage
+                    
+            case state.LVLDEV :
+                if enemi_type == Type.PHYSIQUE:
+                    self.health_point = self.health_point - (damage*2)
+                elif enemi_type == Type.MANAGE:
+                    self.health_point = self.health_point - (damage*0.5)
+                else: 
+                    self.health_point = self.health_point - damage
+
+            case state.LVLOUV :
+                if enemi_type == Type.MANAGE:
+                    self.health_point = self.health_point - (damage*2)
+                elif enemi_type == Type.TECHNO:
                     self.health_point = self.health_point - (damage*0.5)
                 else: 
                     self.health_point = self.health_point - damage

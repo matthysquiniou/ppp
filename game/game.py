@@ -15,7 +15,7 @@ from WaveParameters import WaveParameters
 
 
 
-menu_texts = ["Become manager","Become dev","Quit"]
+menu_texts = ["Devenir manager","Devenir developpeur","Devenir Ouvrier","Quit"]
 
 
 class Game : 
@@ -23,7 +23,8 @@ class Game :
     def __init__(self,size=(1920,1080)) -> None:
         self.MANAGER_BUTTON_POS = (size[0]//2-size[0]//10,size[1]//2)
         self.DEV_BUTTON_POS = (size[0]//2-size[0]//10,size[1]//2+50)
-        self.QUIT_BUTTON_POS = (size[0]//2-size[0]//10,size[1]-150)
+        self.QUIT_BUTTON_POS = (size[0]//2-size[0]//10,size[1]//2+150)
+        self.OUV_BUTTON_POS = (size[0]//2-size[0]//10,size[1]//2+100)
         self.LOGO_POS = (size[0]//2-size[0]//5,100)
         self.LOGO_SIZE = (size[0]//2,size[1]//4)
 
@@ -32,7 +33,7 @@ class Game :
 
         self.tree = Tree(self.player,self.Wsize)
 
-        self.button_pos = [self.MANAGER_BUTTON_POS,self.DEV_BUTTON_POS,self.QUIT_BUTTON_POS,]
+        self.button_pos = [self.MANAGER_BUTTON_POS,self.DEV_BUTTON_POS,self.OUV_BUTTON_POS,self.QUIT_BUTTON_POS]
         self.state = State.MENU
         self.wave = Wave(WaveParameters.WAVE_1.value)
         self.lvl = 0
@@ -151,6 +152,9 @@ class Game :
             case State.LVLDEV:
                 self.level(display,mouse)
 
+            case State.LVLOUV:
+                self.level(display,mouse)
+
             case State.QUIT:
                 pygame.quit()
                 sys.exit()
@@ -177,8 +181,10 @@ class Game :
                             case 1:
                                 self.state = State.LVLDEV
                             case 2:
+                                self.state = State.LVLOUV
+                            case 3:
                                 self.state = State.QUIT
-            case State.LVLMANAGER:
+            case State.LVLMANAGER | State.LVLDEV | State.LVLOUV :
                 if self.sub_state == SubState.SKILL_TREE:
                     self.tree.check_click(mouse_x,mouse_y)
                 if 0 <= mouse_x <= 50 and 0 <= mouse_y <= 50:
@@ -194,14 +200,6 @@ class Game :
                 if 0 <= mouse_x <= 140 and 0 <= mouse_y <= 20:
                     if self.sub_state in [SubState.WIN,SubState.LOSE]:
                         self.reset()
-            case State.LVLDEV:
-                if 0 <= mouse_x <= 50 and 0 <= mouse_y <= 50:
-                    if self.sub_state in [SubState.WAITING_WAVE,SubState.WAVE_SPAWN,SubState.WAVE]:
-                        self.sub_state_save = self.sub_state
-                        self.sub_state = SubState.SKILL_TREE
-                    elif self.sub_state == SubState.SKILL_TREE:
-                         self.sub_state = self.sub_state_save
-                    pass
 
     def put_basic_elemnts(self,display : pygame.display,mouse):
         
