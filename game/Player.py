@@ -1,6 +1,5 @@
 from Type import Type
 from State import State
-from SkillTree import Tree
 from Castle import Castle
 from Ennemi import Ennemi
 from PlayerAttaque import PlayerAttaque

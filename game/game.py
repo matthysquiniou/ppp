@@ -1,11 +1,8 @@
-import time
 import pygame
 import sys
 
 from Map import Map
 from Ennemi import Ennemi
-from Type import Type
-from Rank import Rank
 from SkillTree import Tree
 from Player import Player
 from State import State

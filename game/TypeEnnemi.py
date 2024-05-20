@@ -1,6 +1,7 @@
 from enum import Enum
 from Type import Type
-from isometric_tutorial.Rank import Rank
+from Rank import Rank
+
 class TypeEnnemi(Enum):
     PHYSICAL_BASE = {
         "type": Type.PHYSIQUE,

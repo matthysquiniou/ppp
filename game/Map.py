@@ -1,6 +1,4 @@
 import pygame
-import random
-import math
 
 class Map:
     def __init__(self,file,size) -> None:
