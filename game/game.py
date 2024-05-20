@@ -38,6 +38,7 @@ class Game :
         self.sub_state_save = SubState.WAITING_WAVE
 
         self.map = Map("./config/map.txt",size)
+        self.score = 0
 
     def reset(self):
         self.player = Player(self.Wsize)
@@ -75,6 +76,7 @@ class Game :
     def wave_commun(self,mouse,display):
         self.put_basic_elemnts(display,mouse)
         self.player.attaque(self,display)
+        self.wave.ticks = self.wave.ticks + 1
         wavefont = pygame.font.SysFont('Corbel',20,True) 
         text = wavefont.render('Wave '+str(self.wave.wave_parameter["wave_number"]), True , (0,0,0)) 
         display.blit(text,(15,65))
@@ -104,6 +106,7 @@ class Game :
             if isinstance(object, Ennemi):
                 have_ennemi = True
         if not have_ennemi:
+            self.wave.add_score(self)
             if self.wave.wave_parameter["next_wave"] == None:
                 self.sub_state = SubState.WIN
             else:
@@ -128,10 +131,10 @@ class Game :
                 self.tree.draw(display)
 
             case SubState.WIN:
-                self.afficher_ecran_fin("Bien joué, vous avez gagné",display,0,mouse)# remplacer 0 par un score
+                self.afficher_ecran_fin("Bien joué, vous avez gagné",display,self.score,mouse)
 
             case SubState.LOSE:
-                self.afficher_ecran_fin("Dommage, vous avez perdu",display,0,mouse)# remplacer 0 par un score
+                self.afficher_ecran_fin("Dommage, vous avez perdu",display,self.score,mouse)
 
     def draw(self,display):
         mouse = pygame.mouse.get_pos() 
@@ -220,16 +223,18 @@ class Game :
         castle_img = pygame.transform.scale(castle_img,(200,200))
         display.blit(castle_img,(self.Wsize[0]//2-95,self.Wsize[1]//2-95))
 
-        levelfont = pygame.font.SysFont('Corbel',20,True) 
-        text = levelfont.render('Niveau '+str(self.player.level), True , (0,0,0)) 
+        font = pygame.font.SysFont('Corbel',20,True) 
+        text = font.render('Niveau '+str(self.player.level), True , (0,0,0)) 
         display.blit(text,((display.get_width()/2)-180,18))
 
-        wavefont = pygame.font.SysFont('Corbel',20,True) 
         if self.sub_state == SubState.WAITING_WAVE:
-            text = wavefont.render('Ennemis prochaine wave :'+str(self.wave.ennemi_number), True , (0,0,0)) 
+            text = font.render('Ennemis prochaine wave :'+str(self.wave.ennemi_number), True , (0,0,0)) 
             display.blit(text,(15,115))
         else:
-            text = wavefont.render('Ennemis restant :'+str(self.wave.remaining_ennemi), True , (0,0,0)) 
+            text = font.render('Ennemis restant :'+str(self.wave.remaining_ennemi), True , (0,0,0)) 
             display.blit(text,(15,115))
+
+        text = font.render('Score ' + str(self.score).zfill(5), True, (0,0,0))
+        display.blit(text,(850,0))
 
    

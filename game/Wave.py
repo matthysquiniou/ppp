@@ -22,7 +22,11 @@ class Wave:
         self.remaining_ennemi = self.ennemi_number
         self.spawn_ticks_counter = 0
         self.ennemi_proportion = None
+        self.ticks = 0
 
+    def add_score(self,game):
+        game.score = game.score + 180 - self.ticks/60
+        self.ticks = 0
 
     def next_wave(self):
         self.wave_parameter = self.wave_parameter["next_wave"].value

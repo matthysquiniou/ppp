@@ -121,3 +121,4 @@ class Ennemi(Objet):
             self.dead = True
             game.player.add_exp(20*self.rank["stat_mult"])
             game.wave.remaining_ennemi = game.wave.remaining_ennemi - 1
+            game.score = game.score + self.rank["score"]
