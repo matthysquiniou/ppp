@@ -100,9 +100,9 @@ class Game :
 
     def wave_spawn(self):
         self.wave.spawn(self)
+        if self.wave.ennemi_number == 1:
+            self.wave.boss_spawn(self)
         if self.wave.spawn_ticks > self.wave.max_spawn_ticks:
-            if self.wave.wave_parameter == WaveParameters.WAVE_BOSS:
-                self.wave.boss_spawn(self)
             self.sub_state = SubState.WAVE
             self.wave.spawn_ticks = 0
         self.wave.spawn_ticks = self.wave.spawn_ticks + 1

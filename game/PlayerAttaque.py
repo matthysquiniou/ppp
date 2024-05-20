@@ -10,7 +10,7 @@ class PlayerAttaque:
         self.y = y+100
         self.direction = self.calculer_coefficients_direction(ennemi.x,ennemi.y)
         self.attaque_type = self.choose_attack_type(social_points,technologic_points,physical_points)
-        self.vitesse = 25
+        self.vitesse = 50
         self.ennemi_distance = ennemi_distance
         self.distance_run = 0
         

@@ -122,6 +122,5 @@ class EnnemiBoss(Objet):
         self.animation_damage = True
         if self.vie <= 0 and not self.dead:
             self.dead = True
-            game.player.add_exp(20*self.rank["stat_mult"]) * 100
             game.wave.remaining_ennemi = game.wave.remaining_ennemi - 1
-            game.score = game.score + self.rank["score"] * 100
+            game.score = game.score + 1000

@@ -57,7 +57,7 @@ class Wave:
 
     def spawn(self, game):
         self.spawn_ticks_counter = self.spawn_ticks_counter + 1
-        if self.spawn_ticks_counter >= self.spawn_ticks_required and self.ennemi_number != 0:
+        if self.spawn_ticks_counter >= self.spawn_ticks_required and self.ennemi_number != 0 and (self.ennemi_number != 1 and self.wave_parameter != WaveParameters.WAVE_BOSS):
             self.spawn_ticks_counter = 0
             state = game.state
             match state:
