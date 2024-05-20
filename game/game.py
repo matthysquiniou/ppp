@@ -1,5 +1,6 @@
 import pygame
 import sys
+import json
 
 from Map import Map
 from Ennemi import Ennemi
@@ -12,7 +13,7 @@ from WaveParameters import WaveParameters
 
 
 
-menu_texts = ["Devenir manager","Devenir developpeur","Devenir Ouvrier","Quit"]
+menu_texts = ["Devenir manager","Devenir developpeur","Devenir Ouvrier","Leaderboard","Quit"]
 
 
 class Game : 
@@ -20,17 +21,19 @@ class Game :
     def __init__(self,size=(1920,1080)) -> None:
         self.MANAGER_BUTTON_POS = (size[0]//2-size[0]//10,size[1]//2)
         self.DEV_BUTTON_POS = (size[0]//2-size[0]//10,size[1]//2+50)
-        self.QUIT_BUTTON_POS = (size[0]//2-size[0]//10,size[1]//2+150)
+        self.QUIT_BUTTON_POS = (size[0]//2-size[0]//10,size[1]//2+200)
         self.OUV_BUTTON_POS = (size[0]//2-size[0]//10,size[1]//2+100)
+        self.LEADERBOARD_BUTTON_POS = (size[0]//2-size[0]//10,size[1]//2+150) 
         self.LOGO_POS = (size[0]//2-size[0]//5,100)
         self.LOGO_SIZE = (size[0]//2,size[1]//4)
+        self.score_file = "./score.json"
 
         self.Wsize = size
         self.player = Player(self.Wsize)
 
         self.tree = Tree(self.player,self.Wsize)
 
-        self.button_pos = [self.MANAGER_BUTTON_POS,self.DEV_BUTTON_POS,self.OUV_BUTTON_POS,self.QUIT_BUTTON_POS]
+        self.button_pos = [self.MANAGER_BUTTON_POS,self.DEV_BUTTON_POS,self.OUV_BUTTON_POS,self.LEADERBOARD_BUTTON_POS,self.QUIT_BUTTON_POS]
         self.state = State.MENU
         self.wave = Wave(WaveParameters.WAVE_1.value)
         self.objects = []
@@ -39,6 +42,7 @@ class Game :
 
         self.map = Map("./config/map.txt",size)
         self.score = 0
+        self.user_name = ""
 
     def reset(self):
         self.player = Player(self.Wsize)
@@ -136,6 +140,45 @@ class Game :
             case SubState.LOSE:
                 self.afficher_ecran_fin("Dommage, vous avez perdu",display,self.score,mouse)
 
+    def leaderboard(self, mouse, display):
+        if 0 <= mouse[0] <= 140 and 0 <= mouse[1] <= 20:
+            pygame.draw.rect(display,(150,150,150),[0,0,140,20]) 
+
+        title_font = pygame.font.SysFont('Corbel', 30, True)
+        text_font = pygame.font.SysFont('Corbel', 20, True)
+
+        text5 = text_font.render("Retour au menu", True , (255,255,255)) 
+        display.blit(text5,((0,0)))
+        
+        try:
+            with open(self.score_file, 'r') as f:
+                scores = json.load(f)
+        except FileNotFoundError:
+            scores = []
+
+        sorted_scores = sorted(scores, key=lambda x: x['score'], reverse=True)
+
+        title = title_font.render("Leaderboard", True, (255, 255, 255))
+        display.blit(title, ((display.get_width() // 2) - (title.get_width() // 2), 50))
+
+        max_scores_per_column = 10
+        columns = 3
+
+        column_width = display.get_width() // columns
+        column_x_positions = [(i * column_width) + 75 for i in range(columns)]
+
+        y_offset = 150
+        for col in range(columns):
+            for i in range(max_scores_per_column):
+                index = col * max_scores_per_column + i
+                if index < len(sorted_scores):
+                    name = sorted_scores[index]['name']
+                    score = sorted_scores[index]['score']
+                    score_text = text_font.render(f"{index + 1}. {name}: {score}", True, (255, 255, 255))
+                    display.blit(score_text, (column_x_positions[col], y_offset + (i * 30)))
+
+        pygame.display.flip()
+
     def draw(self,display):
         mouse = pygame.mouse.get_pos() 
 
@@ -143,6 +186,9 @@ class Game :
 
             case State.MENU:
                 self.menu(mouse,display)
+            
+            case State.LEADERBOARD:
+                self.leaderboard(mouse,display)
 
             case State.LVLMANAGER:
                 self.level(display,mouse)
@@ -157,16 +203,28 @@ class Game :
                 pygame.quit()
                 sys.exit()
 
-    def afficher_ecran_fin(self, text, display, score,mouse):
-        finfont = pygame.font.SysFont('Corbel',20,True) 
-        text1 = finfont.render(text, True , (255,255,255)) 
-        display.blit(text1,((display.get_width()//2)-100,(display.get_height()//2)-50))
-        text2 = finfont.render("Score : "+str(score), True , (255,255,255)) 
-        display.blit(text2,((display.get_width()//2)-25,(display.get_height()//2)))
-        text3 = finfont.render("Retour au menu", True , (255,255,255)) 
-        display.blit(text3,((0,0)))
+    def afficher_ecran_fin(self, text, display, score, mouse):
         if 0 <= mouse[0] <= 140 and 0 <= mouse[1] <= 20:
             pygame.draw.rect(display,(150,150,150),[0,0,140,20]) 
+
+        finfont = pygame.font.SysFont('Corbel',20,True) 
+
+        text1 = finfont.render(text, True , (255,255,255)) 
+        display.blit(text1,((display.get_width()//2)-100,(display.get_height()//2)-50))
+
+        text2 = finfont.render("Score : "+str(score), True , (255,255,255)) 
+        display.blit(text2,((display.get_width()//2)-25,(display.get_height()//2)))
+
+        text3 = finfont.render("Votre nom : "+self.user_name, True , (255,255,255)) 
+        display.blit(text3,((display.get_width()//2)-50,(display.get_height()//2+50)))
+
+        text4 = finfont.render("Appuyer sur entrée pour enregistrer votre score", True , (255,255,255)) 
+        display.blit(text4,((display.get_width()//2)-150,(display.get_height()//2+100)))
+
+        text5 = finfont.render("Retour au menu", True , (255,255,255)) 
+        display.blit(text5,((0,0)))
+
+
 
     def check_where_click(self,mouse_x,mouse_y):
         match self.state:
@@ -181,7 +239,12 @@ class Game :
                             case 2:
                                 self.state = State.LVLOUV
                             case 3:
+                                self.state = State.LEADERBOARD
+                            case 4:
                                 self.state = State.QUIT
+            case State.LEADERBOARD:
+                if 0 <= mouse_x <= 140 and 0 <= mouse_y <= 20:
+                    self.state = State.MENU
             case State.LVLMANAGER | State.LVLDEV | State.LVLOUV :
                 if self.sub_state == SubState.SKILL_TREE:
                     self.tree.check_click(mouse_x,mouse_y)
@@ -198,6 +261,29 @@ class Game :
                 if 0 <= mouse_x <= 140 and 0 <= mouse_y <= 20:
                     if self.sub_state in [SubState.WIN,SubState.LOSE]:
                         self.reset()
+
+    def check_key(self,event):
+        if self.sub_state in [SubState.WIN,SubState.LOSE]:
+            if event.key == pygame.K_RETURN:
+                self.reset()
+                self.register_score()
+                self.state = State.LEADERBOARD
+            elif event.key == pygame.K_BACKSPACE:
+                self.user_name = self.user_name[:-1]
+            else:
+                self.user_name += event.unicode
+
+    def register_score(self):
+        try:
+            with open(self.score_file, 'r') as f:
+                scores = json.load(f)
+        except FileNotFoundError:
+            scores = []
+
+        scores.append({'name': self.user_name, 'score': self.score})
+
+        with open(self.score_file, 'w') as f:
+            json.dump(scores, f, indent=4)
 
     def put_basic_elemnts(self,display : pygame.display,mouse):
         

@@ -8,3 +8,4 @@ class State(Enum):
     LVLOUV = 4
     FINISHED = 5
     QUIT = 6
+    LEADERBOARD = 7
