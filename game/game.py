@@ -53,111 +53,102 @@ class Game :
         self.sub_state = SubState.WAITING_WAVE
         self.sub_state_save = SubState.WAITING_WAVE
 
-    def draw(self,display):
-        size = display.get_size()
+    def waiting_wave(self,display,mouse):
+        self.put_basic_elemnts(display,mouse)
 
+        if 0 <= mouse[0] <= 150 and 50 <= mouse[1] <= 100:
+            pygame.draw.rect(display,(255,255,255),[0,50,150,50]) 
+        next_wave_image = pygame.image.load('./images/next_wave.png').convert_alpha()
+        next_wave_image = pygame.transform.scale(next_wave_image,(150,50))
+        display.blit(next_wave_image,(0,50))
+
+    def menu(self,mouse,display):
+        logo = pygame.image.load('./images/logo.png').convert()
+        logo = pygame.transform.scale(logo,self.LOGO_SIZE)
+        display.blit(logo,self.LOGO_POS)
+
+        smallfont = pygame.font.SysFont('Corbel',35) 
+                
+        for x,pos in enumerate(self.button_pos) :
+            if pos[0] <= mouse[0] <= pos[0]+140 and pos[1] <= mouse[1] <= pos[1]+40: 
+                pygame.draw.rect(display,(150,150,150),[pos[0],pos[1],30,40]) 
+            text = smallfont.render('>  '+ menu_texts[x], True , (255,255,255)) 
+            display.blit(text,(pos[0],pos[1]))
+        pass
+
+    def wave_commun(self,mouse,display):
+        self.put_basic_elemnts(display,mouse)
+        self.player.attaque(self,display)
+        wavefont = pygame.font.SysFont('Corbel',20,True) 
+        text = wavefont.render('Wave '+str(self.wave.wave_parameter["wave_number"]), True , (0,0,0)) 
+        display.blit(text,(15,65))
+        for object in self.objects:
+            if isinstance(object, Ennemi):
+                nb_attacks = object.nb_attacks
+                object.draw(display)
+                if nb_attacks < object.nb_attacks:
+                    self.player.take_damage(self.state,object.attaque,object.type)
+                if object.number_ticks_since_dead > 180:
+                    self.objects.remove(object)
+            else:
+                object.draw(display)
+        if self.player.health_point <= 0:
+            self.sub_state = SubState.LOSE
+
+    def wave_spawn(self):
+        if self.wave.spawn_ticks > self.wave.max_spawn_ticks:
+            self.sub_state = SubState.WAVE
+            self.wave.spawn_ticks = 0
+        self.wave.spawn_ticks = self.wave.spawn_ticks + 1
+    
+    def wave(self):
+        have_ennemi = False
+        for object in self.objects:
+            if isinstance(object, Ennemi):
+                have_ennemi = True
+        if not have_ennemi:
+            if self.wave.wave_parameter["next_wave"] == None:
+                self.sub_state = SubState.WIN
+            else:
+                self.sub_state = SubState.WAITING_WAVE
+                self.wave.next_wave()
+
+    def level(self,display,mouse):
+        match self.sub_state:
+
+            case SubState.WAITING_WAVE:
+                self.waiting_wave(display,mouse)
+
+            case SubState.WAVE_SPAWN:
+                self.wave_commun(mouse,display)                        
+                self.wave.spawn(self)
+
+            case SubState.WAVE:
+                self.wave_commun(mouse,display)
+                self.wave()
+                            
+            case SubState.SKILL_TREE:
+                self.tree.draw(display)
+
+            case SubState.WIN:
+                self.afficher_ecran_fin("Bien joué, vous avez gagné",display,0,mouse)# remplacer 0 par un score
+
+            case SubState.LOSE:
+                self.afficher_ecran_fin("Dommage, vous avez perdu",display,0,mouse)# remplacer 0 par un score
+
+    def draw(self,display):
         mouse = pygame.mouse.get_pos() 
 
         match self.state:
-            case State.MENU:
-                logo = pygame.image.load('./images/logo.png').convert()
-                logo = pygame.transform.scale(logo,self.LOGO_SIZE)
-                display.blit(logo,self.LOGO_POS)
 
-                smallfont = pygame.font.SysFont('Corbel',35) 
-                
-                for x,pos in enumerate(self.button_pos) :
-                    if pos[0] <= mouse[0] <= pos[0]+140 and pos[1] <= mouse[1] <= pos[1]+40: 
-                        pygame.draw.rect(display,(150,150,150),[pos[0],pos[1],30,40]) 
-                    text = smallfont.render('>  '+ menu_texts[x], True , (255,255,255)) 
-                    display.blit(text,(pos[0],pos[1]))
-                pass
+            case State.MENU:
+                self.menu(mouse,display)
 
             case State.LVLMANAGER:
-                match self.sub_state:
-                    case SubState.WAITING_WAVE:
-                        self.put_basic_elemnts(display,mouse)
-
-                        if 0 <= mouse[0] <= 150 and 50 <= mouse[1] <= 100:
-                            pygame.draw.rect(display,(255,255,255),[0,50,150,50]) 
-                        next_wave_image = pygame.image.load('./images/next_wave.png').convert_alpha()
-                        next_wave_image = pygame.transform.scale(next_wave_image,(150,50))
-                        display.blit(next_wave_image,(0,50))
-                        
-
-                    case SubState.WAVE_SPAWN:
-                        self.put_basic_elemnts(display,mouse)
-                        self.player.attaque(self,display)
-                        self.wave.spawn(self)
-
-                        wavefont = pygame.font.SysFont('Corbel',20,True) 
-                        text = wavefont.render('Wave '+str(self.wave.wave_parameter["wave_number"]), True , (0,0,0)) 
-                        display.blit(text,(15,65))
-
-                        
-                        for object in self.objects:
-                            if isinstance(object, Ennemi):
-                                nb_attacks = object.nb_attacks
-                                object.draw(display)
-                                if nb_attacks < object.nb_attacks:
-                                    self.player.take_damage(self.state,object.attaque,object.type)
-                                if object.number_ticks_since_dead > 180:
-                                    self.objects.remove(object)
-                            else:
-                                object.draw(display)
-                        if self.wave.spawn_ticks > self.wave.max_spawn_ticks:
-                            self.sub_state = SubState.WAVE
-                            self.wave.spawn_ticks = 0
-                        self.wave.spawn_ticks = self.wave.spawn_ticks + 1
-                        if self.player.health_point <= 0:
-                            self.sub_state = SubState.LOSE
-                        
-                    case SubState.WAVE:
-                        self.put_basic_elemnts(display,mouse)
-                        self.player.attaque(self,display)
-                        have_ennemi = False
-
-                        wavefont = pygame.font.SysFont('Corbel',20,True) 
-                        text = wavefont.render('Wave '+str(self.wave.wave_parameter["wave_number"]), True , (0,0,0)) 
-                        display.blit(text,(15,65))
-
-                        for object in self.objects:
-                            if isinstance(object, Ennemi):
-                                have_ennemi = True
-                                nb_attacks = object.nb_attacks
-                                object.draw(display)
-                                if nb_attacks < object.nb_attacks:
-                                    self.player.take_damage(self.state,object.attaque,object.type)
-                                if object.number_ticks_since_dead > 180:
-                                    self.objects.remove(object)
-                            else:
-                                object.draw(display)
-                        if not have_ennemi:
-                            if self.wave.wave_parameter["next_wave"] == None:
-                                self.sub_state = SubState.WIN
-                            else:
-                                self.sub_state = SubState.WAITING_WAVE
-                                self.wave.next_wave()
-                        if self.player.health_point <= 0:
-                            self.sub_state = SubState.LOSE
-                            
-                    case SubState.SKILL_TREE:
-                        self.tree.draw(display)
-                    case SubState.WIN:
-                        self.afficher_ecran_fin("Bien joué, vous avez gagné",display,0,mouse)# remplacer 0 par un score
-                    case SubState.LOSE:
-                        self.afficher_ecran_fin("Dommage, vous avez perdu",display,0,mouse)# remplacer 0 par un score
+                self.level(display,mouse)
 
             case State.LVLDEV:
-                self.put_basic_elemnts(display,mouse)
-
-
-                if len(self.objects)==0:
-                    self.objects.append(Ennemi(150,150,Type.TECHNO,Rank.BASE))
-                
-
-                for i in self.objects:
-                    i.draw(display)
+                self.level(display,mouse)
 
             case State.QUIT:
                 pygame.quit()
