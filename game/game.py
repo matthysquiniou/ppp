@@ -96,6 +96,7 @@ class Game :
             self.sub_state = SubState.LOSE
 
     def wave_spawn(self):
+        self.wave.spawn(self)
         if self.wave.spawn_ticks > self.wave.max_spawn_ticks:
             self.sub_state = SubState.WAVE
             self.wave.spawn_ticks = 0
@@ -120,8 +121,8 @@ class Game :
                 self.waiting_wave(display,mouse)
 
             case SubState.WAVE_SPAWN:
-                self.wave_commun(mouse,display)                        
-                self.wave.spawn(self)
+                self.wave_commun(mouse,display)       
+                self.wave_spawn()                 
 
             case SubState.WAVE:
                 self.wave_commun(mouse,display)
