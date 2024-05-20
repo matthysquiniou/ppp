@@ -10,7 +10,7 @@ class PlayerAttaque:
         self.y = y+100
         self.direction = self.calculer_coefficients_direction(ennemi.x,ennemi.y)
         self.attaque_type = self.choose_attack_type(social_points,technologic_points,physical_points)
-        self.vitesse = 50
+        self.vitesse = 60
         self.ennemi_distance = ennemi_distance
         self.distance_run = 0
         
@@ -34,7 +34,6 @@ class PlayerAttaque:
         return choix
 
     def draw(self,display,game): #TODO: rentre en colision trop tot
-        self.update_distance()
         self.distance_run = self.distance_run + abs(self.direction[0]*self.vitesse*0.15) + abs(self.direction[1]*self.vitesse*0.15)
         self.x = self.x + self.direction[0]*self.vitesse*0.15
         self.y = self.y + self.direction[1]*self.vitesse*0.15
@@ -53,6 +52,3 @@ class PlayerAttaque:
         coeffX = dx / norm
         coeffY = dy / norm
         return [coeffX, coeffY]
-    
-    def update_distance(self):
-        self.ennemi_distance = math.sqrt((self.ennemi.x - self.x) ** 2 + (self.ennemi.y - self.y) ** 2)
