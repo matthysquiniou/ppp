@@ -102,7 +102,7 @@ class Game :
             self.wave.spawn_ticks = 0
         self.wave.spawn_ticks = self.wave.spawn_ticks + 1
     
-    def wave(self):
+    def wave_en_cours(self):
         have_ennemi = False
         for object in self.objects:
             if isinstance(object, Ennemi):
@@ -126,7 +126,7 @@ class Game :
 
             case SubState.WAVE:
                 self.wave_commun(mouse,display)
-                self.wave()
+                self.wave_en_cours()
                             
             case SubState.SKILL_TREE:
                 self.tree.draw(display)
