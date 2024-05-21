@@ -89,7 +89,15 @@ class Player:
 
     def level_up(self):
         self.level = self.level + 1
-        self.remain_points += 15
+        self.remain_points += 5*self.level
+
+        self.health_point += self.max_health*20/100
+
+        if self.health_point >= self.max_health:
+            self.max_health += 50
+            self.health_point = self.max_health
+            
+
         if self.level >= self.castle["next_level_required"]:
             self.castle = self.castle["next_castle"].value
             self.ticks_needed_for_attack = 60/self.castle["attack_speed"]
